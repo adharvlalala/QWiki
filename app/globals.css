@@ -1,0 +1,244 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap");
+@import "tailwindcss";
+
+/* ── Aetheric Flux Design Tokens ─────────────────────────────────────── */
+@theme {
+  /* Colours */
+  --color-primary: #7e22ce;
+  --color-primary-container: #9333ea;
+  --color-on-primary: #ffffff;
+  --color-inverse-primary: #d8b4fe;
+
+  --color-secondary: #8127cf;
+  --color-secondary-container: #9c48ea;
+  --color-on-secondary: #ffffff;
+
+  --color-tertiary: #006577;
+  --color-tertiary-container: #008096;
+  --color-on-tertiary: #ffffff;
+
+  --color-electric-cyan: #a855f7;
+  --color-quantum-purple: #d8b4fe;
+  --color-space-indigo: #111827;
+
+  --color-surface: #f8f9fa;
+  --color-surface-dim: #d9dadb;
+  --color-surface-bright: #f8f9fa;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f4f5;
+  --color-surface-container: #edeeef;
+  --color-surface-container-high: #e7e8e9;
+  --color-surface-container-highest: #e1e3e4;
+  --color-on-surface: #191c1d;
+  --color-on-surface-variant: #424754;
+  --color-inverse-surface: #2e3132;
+  --color-inverse-on-surface: #f0f1f2;
+  --color-outline: #727785;
+  --color-outline-variant: #c2c6d6;
+  --color-background: #f8f9fa;
+  --color-on-background: #191c1d;
+  --color-surface-variant: #e1e3e4;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+
+  /* Typography */
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows / Glows */
+  --shadow-glow-sm: 0 0 12px 0 rgba(168, 85, 247, 0.25);
+  --shadow-glow-md: 0 0 24px 0 rgba(168, 85, 247, 0.35);
+  --shadow-glow-lg: 0 0 48px 0 rgba(168, 85, 247, 0.45);
+  --shadow-glow-blue: 0 8px 30px 0 rgba(126, 34, 206, 0.15);
+  --shadow-float: 0 4px 24px 0 rgba(168, 85, 247, 0.08);
+
+  /* Animations */
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+  --animate-quantum-spin: quantum-spin 8s linear infinite;
+  --animate-fade-up: fade-up 0.6s ease-out forwards;
+  --animate-scale-in: scale-in 0.4s ease-out forwards;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px 0 rgba(168, 85, 247, 0.3); }
+  50%       { box-shadow: 0 0 32px 6px rgba(168, 85, 247, 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes quantum-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Base Resets ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.25);
+  color: var(--color-on-surface);
+}
+
+/* ── Utility Classes ─────────────────────────────────────────────────── */
+
+/* Glassmorphism surface */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.glass-dark {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #7e22ce 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-purple {
+  background: linear-gradient(135deg, #a855f7 0%, #d8b4fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Energy border */
+.energy-border {
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.08);
+}
+
+.energy-border-hover {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.energy-border-hover:hover {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.6), 0 12px 40px rgba(168, 85, 247, 0.2);
+}
+
+/* Monospaced chip */
+.quantum-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  background: rgba(168, 85, 247, 0.1);
+  color: #6900b3;
+  border-radius: 2px;
+  padding: 2px 8px;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+/* Glow text */
+.glow-text {
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+/* Neon underline for nav active state */
+.nav-active {
+  position: relative;
+}
+
+.nav-active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #a855f7, #7e22ce);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+}
+
+/* Floating card */
+.floating-card {
+  background: #ffffff;
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.08);
+  border-radius: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.floating-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(168, 85, 247, 0.2);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+/* Shimmer gradient for progress bars */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    #a855f7 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    #a855f7 100%
+  );
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* Quantum orbs */
+.quantum-orb {
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+}
