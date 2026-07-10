@@ -67,12 +67,20 @@
   --animate-quantum-spin: quantum-spin 8s linear infinite;
   --animate-fade-up: fade-up 0.6s ease-out forwards;
   --animate-scale-in: scale-in 0.4s ease-out forwards;
+  --animate-glare: glare 5s infinite;
+  --animate-marquee: marquee 35s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 35s linear infinite;
 }
 
 /* ── Keyframes ───────────────────────────────────────────────────────── */
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 12px 0 rgba(168, 85, 247, 0.3); }
   50%       { box-shadow: 0 0 32px 6px rgba(168, 85, 247, 0.6); }
+}
+
+@keyframes glare {
+  0%, 80% { transform: translateX(-150%) skewX(-15deg); }
+  90%, 100% { transform: translateX(150%) skewX(-15deg); }
 }
 
 @keyframes float {
@@ -105,6 +113,16 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
 /* ── Base Resets ─────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -119,6 +137,9 @@ body {
   background-color: var(--color-background);
   color: var(--color-on-surface);
   min-height: 100vh;
+  /* Mobile: momentum scrolling + contain overscroll */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
 }
 
 ::selection {
@@ -241,4 +262,37 @@ body {
   filter: blur(60px);
   animation: float 6s ease-in-out infinite;
   pointer-events: none;
+}
+
+/* Infinite Marquee */
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 35s) linear infinite;
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse var(--marquee-duration, 35s) linear infinite;
+}
+
+.marquee-container:hover .animate-marquee,
+.marquee-container:hover .animate-marquee-reverse {
+  animation-play-state: paused;
+}
+
+/* ── Reduced Motion ───────────────────────────────────────────────────── */
+/* Respects user's OS-level "reduce motion" preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep pulse alive but make it subtle */
+  .animate-pulse {
+    animation: none !important;
+    opacity: 0.7;
+  }
 }

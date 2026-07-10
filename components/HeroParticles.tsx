@@ -188,16 +188,19 @@ export default function HeroParticles() {
   }, []);
 
   // ── Animation loop ───────────────────────────────────────────────────────
-  const loop = useCallback(() => {
-    if (!isVisible.current || !isTabActive.current) return;
-    draw();
-    animRef.current = requestAnimationFrame(loop);
+  const loopRef = useRef<() => void>(() => {});
+  useEffect(() => {
+    loopRef.current = () => {
+      if (!isVisible.current || !isTabActive.current) return;
+      draw();
+      animRef.current = requestAnimationFrame(loopRef.current);
+    };
   }, [draw]);
 
   const startLoop = useCallback(() => {
     cancelAnimationFrame(animRef.current);
-    animRef.current = requestAnimationFrame(loop);
-  }, [loop]);
+    animRef.current = requestAnimationFrame(loopRef.current);
+  }, []);
 
   const stopLoop = useCallback(() => {
     cancelAnimationFrame(animRef.current);

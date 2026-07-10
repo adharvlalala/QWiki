@@ -43,14 +43,14 @@ const INPUT_PLACEHOLDERS = [
 
 // ── Category quick-links ───────────────────────────────────────────────────
 const CATEGORIES = [
-  { label: "Fundamentals",  icon: <BookOpen size={16} />,    href: "/categories/fundamentals" },
-  { label: "Computing",     icon: <Cpu size={16} />,         href: "/categories/computing" },
-  { label: "Algorithms",    icon: <Zap size={16} />,         href: "/categories/algorithms" },
-  { label: "Hardware",      icon: <Layers size={16} />,      href: "/categories/hardware" },
-  { label: "Research",      icon: <FlaskConical size={16} />,href: "/categories/research" },
-  { label: "Applications",  icon: <Globe size={16} />,       href: "/categories/applications" },
-  { label: "Photonics",     icon: <Atom size={16} />,        href: "/categories/photonics" },
-  { label: "Cryptography",  icon: <GitBranch size={16} />,   href: "/categories/cryptography" },
+  { label: "Fundamentals", icon: <BookOpen size={16} />, href: "/categories/fundamentals" },
+  { label: "Computing", icon: <Cpu size={16} />, href: "/categories/computing" },
+  { label: "Algorithms", icon: <Zap size={16} />, href: "/categories/algorithms" },
+  { label: "Hardware", icon: <Layers size={16} />, href: "/categories/hardware" },
+  { label: "Research", icon: <FlaskConical size={16} />, href: "/categories/research" },
+  { label: "Applications", icon: <Globe size={16} />, href: "/categories/applications" },
+  { label: "Photonics", icon: <Atom size={16} />, href: "/categories/photonics" },
+  { label: "Cryptography", icon: <GitBranch size={16} />, href: "/categories/cryptography" },
 ];
 
 // ── Search result type ─────────────────────────────────────────────────────
@@ -64,13 +64,13 @@ interface SearchResult {
 
 // ── WikiSearchBar (hero-sized, standalone) ─────────────────────────────────
 function WikiSearchBar() {
-  const [query, setQuery]           = useState("");
-  const [focused, setFocused]       = useState(false);
-  const [results, setResults]       = useState<SearchResult[]>([]);
-  const [loading, setLoading]       = useState(false);
-  const [phIdx, setPhIdx]           = useState(0);
-  const inputRef                    = useRef<HTMLInputElement>(null);
-  const abortRef                    = useRef<AbortController | null>(null);
+  const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [phIdx, setPhIdx] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   // Cycle placeholder
   useEffect(() => {
@@ -266,7 +266,7 @@ function WikiSearchBar() {
 // ── Page ───────────────────────────────────────────────────────────────────
 export default function WikiHomePage() {
   const [promptIdx, setPromptIdx] = useState(0);
-  const [visible, setVisible]     = useState(true);
+  const [visible, setVisible] = useState(true);
 
   // Rotate prompt every 7 s with a fade-out / fade-in
   useEffect(() => {
@@ -359,7 +359,17 @@ export default function WikiHomePage() {
                       className="text-[clamp(2.2rem,5.5vw,64px)] leading-[110%] font-semibold text-black tracking-[-0.03em]"
                       style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
-                      {prompt.headline}
+                      {(() => {
+                        const words = prompt.headline.split(" ");
+                        const lastWord = words.pop();
+                        const rest = words.join(" ");
+                        return (
+                          <>
+                            {rest}{rest.length > 0 ? " " : ""}
+                            <span style={{ color: "#7e22ce" }}>{lastWord}</span>
+                          </>
+                        );
+                      })()}
                     </h1>
                   </motion.div>
                 )}
@@ -436,7 +446,7 @@ export default function WikiHomePage() {
                 className="text-[32px] leading-[130%] tracking-[-0.01em] font-semibold text-black mb-4"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                QWIKI
+                BEYOND CLASSICAL
               </div>
               <p
                 className="text-[16px] leading-[160%] text-[#5e5e5e] max-w-sm"

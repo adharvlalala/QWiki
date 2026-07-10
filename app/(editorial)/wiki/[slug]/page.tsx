@@ -27,6 +27,7 @@ interface WikiArticle {
   published: boolean;
   tags: string[];
   stars: number;
+  editor_id?: string;
 }
 
 interface Props {
@@ -138,6 +139,7 @@ export default async function WikiArticlePage({ params }: Props) {
   const { slug } = await params;
 
   let article: WikiArticle | null = null;
+  let editorName: string | null = null;
 
   // Try fetching from Supabase; fall back to demo article
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -156,6 +158,17 @@ export default async function WikiArticlePage({ params }: Props) {
         notFound();
       }
       article = data as WikiArticle;
+
+      if (article.editor_id) {
+        const { data: editorData } = await supabase
+          .from("users")
+          .select("display_name")
+          .eq("id", article.editor_id)
+          .single();
+        if (editorData) {
+          editorName = editorData.display_name;
+        }
+      }
     } catch (err) {
       console.error("Exception in article fetch:", err);
       notFound();
@@ -218,7 +231,9 @@ export default async function WikiArticlePage({ params }: Props) {
               <div className="flex flex-wrap items-center gap-4 pb-6 border-b border-[#E5E5E5]">
                 <span className="flex items-center gap-1.5 text-sm text-[#666666]" aria-label={`Author: ${article.author}`}>
                   <User size={14} aria-hidden="true" />
-                  <span style={{ fontFamily: "'Inter', sans-serif" }}>{article.author}</span>
+                  <span style={{ fontFamily: "'Inter', sans-serif" }}>
+                    {article.author} {editorName && <span className="italic ml-1">| Edited by: {editorName}</span>}
+                  </span>
                 </span>
                 <span className="flex items-center gap-1.5 text-sm text-[#666666]" aria-label={`Last updated ${formatDate(article.updated_at)}`}>
                   <Calendar size={14} aria-hidden="true" />

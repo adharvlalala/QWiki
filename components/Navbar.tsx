@@ -7,23 +7,16 @@ import { Search, Menu, X, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
   { href: "/wiki", label: "Wiki" },
-  { href: "/contribute", label: "Contribute" },
+  { href: "/categories", label: "Categories" },
+  { href: "/labs", label: "Labs" },
   { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // Close mobile menu on resize
   useEffect(() => {
@@ -36,7 +29,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Desktop / Tablet Navbar ─────────────────────────────────── */}
+      {/* ── Desktop / Tablet Navbar ─────────────────────────────────────── */}
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -49,114 +42,124 @@ export default function Navbar() {
         role="banner"
       >
         <nav
-          className="flex items-center gap-4 px-8 py-4 max-w-[1280px] mx-auto"
+          className="relative grid grid-cols-3 items-center px-8 py-4 max-w-[1280px] mx-auto"
           aria-label="Main navigation"
         >
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 shrink-0 focus-visible:outline-none focus-visible:underline"
-            aria-label="QWiki — Home"
-          >
-            <span
-              className="font-bold text-lg text-black tracking-tight"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
-              QWIKI
-            </span>
-          </Link>
+          {/* ── LEFT: Nav Links ───────────────────────────────── */}
+          <div className="flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-1">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "relative px-3 py-1.5 text-[13px] font-medium",
+                    "text-[#5e5e5e] hover:text-[#000000]",
+                    "transition-colors duration-200",
+                    "focus-visible:outline-none focus-visible:underline",
+                  )}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </div>
 
-          {/* Nav links — hidden on mobile */}
-          <div className="hidden md:flex items-center gap-1 ml-6">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "relative px-3 py-1.5 text-sm font-medium",
-                  "text-[#5e5e5e] hover:text-[#000000]",
-                  "transition-colors duration-200",
-                  "focus-visible:outline-none focus-visible:underline",
-                )}
+          {/* ── CENTER: Brand Logo (absolutely positioned for true center) ── */}
+          <div className="flex justify-center">
+            <Link
+              href="/"
+              className="focus-visible:outline-none focus-visible:underline"
+              aria-label="QWiki — Home"
+            >
+              <span
+                className="font-bold text-[15px] text-black tracking-[-0.01em] uppercase"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                {link.label}
-              </Link>
-            ))}
+                BEYOND CLASSICAL
+              </span>
+            </Link>
           </div>
 
-          {/* Spacer */}
-          <div className="flex-1" />
-
-          {/* Search bar */}
-          <div className="relative hidden sm:flex items-center">
-            <label htmlFor="navbar-search" className="sr-only">
-              Search wiki articles
-            </label>
-            <motion.div
-              animate={searchFocused ? { width: 280 } : { width: 200 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative"
-            >
-              <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]"
-                aria-hidden="true"
-              />
-              <input
-                id="navbar-search"
-                type="search"
-                placeholder="Search articles…"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                onFocus={() => setSearchFocused(true)}
-                onBlur={() => setSearchFocused(false)}
-                aria-label="Search wiki articles"
+          {/* ── RIGHT: Login / Contribute + Search ──────────────────────────────── */}
+          <div className="flex items-center justify-end gap-1">
+            <div className="hidden md:flex items-center gap-1">
+              <Link
+                href="/login"
+                id="navbar-login"
                 className={cn(
-                  "w-full pl-8 pr-4 py-1.5 text-sm",
-                  "bg-[#f9f9f9] text-[#1b1b1b] placeholder:text-[#666666]",
-                  "border border-[#E5E5E5]",
-                  "transition-all duration-300",
-                  "focus:outline-none focus:bg-white",
-                  "focus:border-[#000000]",
+                  "relative overflow-hidden flex items-center justify-center text-[13px] font-bold text-black uppercase tracking-[0.04em]",
+                  "px-4 py-2 bg-[#00fa9a] border-2 border-black shadow-[4px_4px_0px_#000000]",
+                  "transition-all duration-150",
+                  "hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[6px_6px_0px_#000000]",
+                  "active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0px_#000000]",
+                  "focus-visible:outline-none focus-visible:underline"
                 )}
-              />
-            </motion.div>
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                <span className="relative z-10">LOGIN/CONTRIBUTE</span>
+                <div className="absolute top-0 bottom-0 w-[150%] left-[-150%] bg-gradient-to-r from-transparent via-white to-transparent opacity-80 z-0 animate-glare" />
+              </Link>
+            </div>
+
+            {/* Search bar */}
+            <div className="relative hidden sm:flex items-center ml-2">
+              <label htmlFor="navbar-search" className="sr-only">
+                Search wiki articles
+              </label>
+              <motion.div
+                animate={searchFocused ? { width: 220 } : { width: 160 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="relative"
+              >
+                <Search
+                  size={13}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#666666]"
+                  aria-hidden="true"
+                />
+                <input
+                  id="navbar-search"
+                  type="search"
+                  placeholder="Search…"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onFocus={() => setSearchFocused(true)}
+                  onBlur={() => setSearchFocused(false)}
+                  aria-label="Search wiki articles"
+                  className={cn(
+                    "w-full pl-7 pr-3 py-1.5 text-[12px]",
+                    "bg-[#f9f9f9] text-[#1b1b1b] placeholder:text-[#999999]",
+                    "border border-[#E5E5E5]",
+                    "transition-all duration-300",
+                    "focus:outline-none focus:bg-white",
+                    "focus:border-[#000000]",
+                  )}
+                  style={{ fontFamily: "'Inter', sans-serif", borderRadius: 0 }}
+                />
+              </motion.div>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+              className={cn(
+                "md:hidden p-2 text-[#1b1b1b] ml-2",
+                "hover:bg-[#f9f9f9]",
+                "focus-visible:outline-none focus-visible:underline",
+                "transition-colors"
+              )}
+            >
+              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
-
-          {/* Connect button */}
-          <Link
-            href="/about"
-            className={cn(
-              "hidden md:flex items-center gap-1 px-6 py-2 text-sm font-medium",
-              "bg-black text-white",
-              "uppercase tracking-[0.02em]",
-              "transition-all duration-300",
-              "hover:bg-[#303030]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#000000]"
-            )}
-          >
-            Connect
-          </Link>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-nav"
-            className={cn(
-              "md:hidden p-2 text-[#1b1b1b]",
-              "hover:bg-[#f9f9f9]",
-              "focus-visible:outline-none focus-visible:underline",
-              "transition-colors"
-            )}
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </nav>
       </motion.header>
 
-      {/* ── Mobile Full-Screen Overlay ──────────────────────────────── */}
+      {/* ── Mobile Full-Screen Overlay ──────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -183,7 +186,7 @@ export default function Navbar() {
               <div className="relative mb-6">
                 <label htmlFor="mobile-search" className="sr-only">Search wiki articles</label>
                 <Search
-                  size={14}
+                  size={13}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]"
                   aria-hidden="true"
                 />
@@ -191,13 +194,14 @@ export default function Navbar() {
                   id="mobile-search"
                   type="search"
                   placeholder="Search…"
-                  className="w-full pl-8 pr-4 py-2 text-sm bg-[#f9f9f9] border border-[#E5E5E5] focus:border-[#000000] focus:outline-none"
+                  className="w-full pl-7 pr-3 py-2 text-[13px] bg-[#f9f9f9] border border-[#E5E5E5] focus:border-[#000000] focus:outline-none"
+                  style={{ fontFamily: "'Inter', sans-serif", borderRadius: 0 }}
                 />
               </div>
 
               {/* Nav links */}
               <nav aria-label="Mobile navigation">
-                <ul className="space-y-1">
+                <ul className="space-y-0">
                   {NAV_LINKS.map((link, i) => (
                     <motion.li
                       key={link.href}
@@ -208,7 +212,8 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className="flex items-center justify-between px-4 py-3 text-[#1b1b1b] font-medium hover:bg-[#f9f9f9] transition-colors"
+                        className="flex items-center justify-between px-4 py-3 text-[#1b1b1b] font-medium border-b border-[#E5E5E5] hover:bg-[#f9f9f9] transition-colors"
+                        style={{ fontFamily: "'Inter', sans-serif" }}
                       >
                         {link.label}
                         <ChevronRight size={16} className="text-[#666666]" aria-hidden="true" />
@@ -218,13 +223,15 @@ export default function Navbar() {
                 </ul>
               </nav>
 
-              <div className="mt-auto">
+              <div className="mt-auto space-y-2">
                 <Link
-                  href="/about"
+                  href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full px-4 py-3 font-medium bg-black text-white uppercase tracking-[0.02em]"
+                  className="relative overflow-hidden flex items-center justify-center w-full px-4 py-3 text-[13px] font-bold bg-[#00fa9a] border-2 border-black text-black uppercase tracking-[0.04em] shadow-[4px_4px_0px_#000000] transition-all duration-150 active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0px_#000000]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  Connect
+                  <span className="relative z-10">LOGIN/CONTRIBUTE</span>
+                  <div className="absolute top-0 bottom-0 w-[150%] left-[-150%] bg-gradient-to-r from-transparent via-white to-transparent opacity-80 z-0 animate-glare" />
                 </Link>
               </div>
             </motion.div>

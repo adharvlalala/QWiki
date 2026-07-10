@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Quantum Initiative — Advancing the Quantum Frontier",
+  title: "Beyond Classical — Advancing the Quantum Frontier",
   description:
     "A rigorous academic framework dedicated to the fundamental principles and transformative potential of quantum mechanics, computing, and information theory.",
 };

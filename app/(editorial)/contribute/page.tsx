@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -73,14 +73,14 @@ Describe real-world uses or implications.
 
 // ── Markdown toolbar buttons ───────────────────────────────────────────────
 const TOOLBAR = [
-  { label: "B",    title: "Bold",         wrap: ["**", "**"],         mono: true  },
-  { label: "I",    title: "Italic",       wrap: ["_", "_"],           mono: false },
-  { label: "`",    title: "Inline code",  wrap: ["`", "`"],           mono: true  },
-  { label: "H2",   title: "Heading 2",    wrap: ["## ", ""],          mono: false },
-  { label: "H3",   title: "Heading 3",    wrap: ["### ", ""],         mono: false },
-  { label: "[ ]",  title: "Bullet list",  wrap: ["- ", ""],           mono: true  },
-  { label: "```",  title: "Code block",   wrap: ["```\n", "\n```"],   mono: true  },
-  { label: "🔗",   title: "Link",         wrap: ["[", "](url)"],      mono: false },
+  { label: "B", title: "Bold", wrap: ["**", "**"], mono: true },
+  { label: "I", title: "Italic", wrap: ["_", "_"], mono: false },
+  { label: "`", title: "Inline code", wrap: ["`", "`"], mono: true },
+  { label: "H2", title: "Heading 2", wrap: ["## ", ""], mono: false },
+  { label: "H3", title: "Heading 3", wrap: ["### ", ""], mono: false },
+  { label: "[ ]", title: "Bullet list", wrap: ["- ", ""], mono: true },
+  { label: "```", title: "Code block", wrap: ["```\n", "\n```"], mono: true },
+  { label: "🔗", title: "Link", wrap: ["[", "](url)"], mono: false },
 ];
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -186,12 +186,12 @@ function MarkdownEditor({
             <article
               className="prose prose-slate max-w-none"
               style={{
-                "--tw-prose-body":     "#333333",
+                "--tw-prose-body": "#333333",
                 "--tw-prose-headings": "#000000",
-                "--tw-prose-code":     "#000000",
+                "--tw-prose-code": "#000000",
               } as React.CSSProperties}
             >
-              <ReactMarkdown 
+              <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
                 rehypePlugins={[rehypeRaw, rehypeSanitize, rehypeKatex]}
               >
@@ -235,35 +235,28 @@ function MarkdownEditor({
 // ── Main Page ──────────────────────────────────────────────────────────────
 export default function ContributePage() {
   // Form state
-  const [type, setType]             = useState<ContribType>("new");
-  const [title, setTitle]           = useState("");
-  const [slug, setSlug]             = useState("");
+  const [type, setType] = useState<ContribType>("new");
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
   const [slugEdited, setSlugEdited] = useState(false);
-  const [category, setCategory]     = useState(CATEGORIES[0]);
-  const [tags, setTags]             = useState("");
-  const [content, setContent]       = useState(MARKDOWN_STARTER);
+  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [tags, setTags] = useState("");
+  const [content, setContent] = useState(MARKDOWN_STARTER);
   const [authorName, setAuthorName] = useState("");
   const [authorNote, setAuthorNote] = useState("");
   const [targetSlug, setTargetSlug] = useState("");
 
   // UI state
-  const [status, setStatus]         = useState<Status>("idle");
-  const [errorMsg, setErrorMsg]     = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // Auto-derive slug from title (unless user manually edited it)
-  useEffect(() => {
-    if (!slugEdited && title) setSlug(slugify(title));
-  }, [title, slugEdited]);
-
-  // Reset slug-edited flag when type changes
-  useEffect(() => { setSlugEdited(false); setSlug(""); setTitle(""); }, [type]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "submitting") return;
 
     if (!title.trim()) { setErrorMsg("Please enter a title."); return; }
-    if (!slug.trim())  { setErrorMsg("Please enter a slug."); return; }
+    if (!slug.trim()) { setErrorMsg("Please enter a slug."); return; }
     if (content.trim().length < 50) {
       setErrorMsg("Content must be at least 50 characters.");
       return;
@@ -278,7 +271,7 @@ export default function ContributePage() {
 
     try {
       const res = await fetch("/api/contribute", {
-        method:  "POST",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type, title, slug, category, tags, content,
@@ -435,10 +428,10 @@ export default function ContributePage() {
               >
                 <dl className="space-y-4">
                   {[
-                    { label: "Format",   value: "Markdown (GFM)" },
-                    { label: "Review",   value: "Editorial team" },
-                    { label: "License",  value: "CC BY 4.0"      },
-                    { label: "Status",   value: "Open"            },
+                    { label: "Format", value: "Markdown (GFM)" },
+                    { label: "Review", value: "Editorial team" },
+                    { label: "License", value: "CC BY 4.0" },
+                    { label: "Status", value: "Open" },
                   ].map(({ label, value }) => (
                     <div key={label} className="flex justify-between items-baseline">
                       <dt
@@ -513,12 +506,12 @@ export default function ContributePage() {
                   </h2>
                   <ul className="space-y-2">
                     {[
-                      ["**text**",       "Bold"],
-                      ["_text_",         "Italic"],
-                      ["`code`",         "Inline code"],
-                      ["## Heading",     "H2 heading"],
-                      ["- item",         "Bullet"],
-                      ["[text](url)",    "Link"],
+                      ["**text**", "Bold"],
+                      ["_text_", "Italic"],
+                      ["`code`", "Inline code"],
+                      ["## Heading", "H2 heading"],
+                      ["- item", "Bullet"],
+                      ["[text](url)", "Link"],
                       ["```\\ncode\\n```", "Code block"],
                     ].map(([syntax, desc]) => (
                       <li key={syntax} className="flex items-baseline gap-2">
@@ -575,18 +568,23 @@ export default function ContributePage() {
                       <button
                         key={t}
                         type="button"
-                        onClick={() => setType(t)}
+                        onClick={() => {
+                          setType(t);
+                          setSlugEdited(false);
+                          setSlug("");
+                          setTitle("");
+                        }}
                         className="flex items-center gap-2 px-6 py-3 text-[13px] font-medium uppercase tracking-[0.05em] transition-colors"
                         style={{
-                          fontFamily:      "'Inter', sans-serif",
+                          fontFamily: "'Inter', sans-serif",
                           backgroundColor: type === t ? "#000000" : "transparent",
-                          color:           type === t ? "#ffffff" : "#666666",
+                          color: type === t ? "#ffffff" : "#666666",
                         }}
                         aria-pressed={type === t}
                       >
                         {t === "new"
                           ? <><FileText size={14} aria-hidden="true" /> New Article</>
-                          : <><Edit3   size={14} aria-hidden="true" /> Edit Existing</>
+                          : <><Edit3 size={14} aria-hidden="true" /> Edit Existing</>
                         }
                       </button>
                     ))}
@@ -641,7 +639,13 @@ export default function ContributePage() {
                       id="art-title"
                       type="text"
                       value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setTitle(val);
+                        if (!slugEdited) {
+                          setSlug(slugify(val));
+                        }
+                      }}
                       placeholder={type === "new" ? "Quantum Entanglement" : "Your proposed title"}
                       className="w-full h-11 border border-[#E5E5E5] bg-white px-4 text-[14px] text-[#1b1b1b] placeholder:text-[#aaaaaa] outline-none focus:border-[#000000] transition-colors"
                       style={{ fontFamily: "'Inter', sans-serif" }}
@@ -848,7 +852,7 @@ export default function ContributePage() {
                 className="text-[32px] leading-[130%] tracking-[-0.01em] font-semibold text-black mb-4"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                QWIKI
+                BEYOND CLASSICAL
               </div>
               <p
                 className="text-[16px] leading-[160%] text-[#5e5e5e] max-w-sm"

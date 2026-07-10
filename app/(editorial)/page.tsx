@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -244,7 +244,7 @@ export default function HomePage() {
                 className="text-[32px] leading-[130%] tracking-[-0.01em] font-semibold text-black mb-4"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
-                QWIKI
+                BEYOND CLASSICAL
               </div>
               <p
                 className="text-[16px] leading-[160%] text-[#5e5e5e] max-w-sm"

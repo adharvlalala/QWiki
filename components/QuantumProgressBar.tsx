@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -23,11 +23,7 @@ export default function QuantumProgressBar({
 }: QuantumProgressBarProps) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
-  const [animated, setAnimated] = useState(!animateOnView);
-
-  useEffect(() => {
-    if (inView) setAnimated(true);
-  }, [inView]);
+  const animated = !animateOnView || inView;
 
   const trackColors = {
     cyan:   "from-[#a855f7] to-[#7e22ce]",

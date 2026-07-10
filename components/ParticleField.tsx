@@ -81,16 +81,19 @@ export default function ParticleField() {
     });
   }, []);
 
-  const loop = useCallback(() => {
-    if (!isVisibleRef.current || !isTabActiveRef.current) return;
-    draw();
-    animFrameRef.current = requestAnimationFrame(loop);
+  const loopRef = useRef<() => void>(() => {});
+  useEffect(() => {
+    loopRef.current = () => {
+      if (!isVisibleRef.current || !isTabActiveRef.current) return;
+      draw();
+      animFrameRef.current = requestAnimationFrame(loopRef.current);
+    };
   }, [draw]);
 
   const startLoop = useCallback(() => {
     cancelAnimationFrame(animFrameRef.current);
-    animFrameRef.current = requestAnimationFrame(loop);
-  }, [loop]);
+    animFrameRef.current = requestAnimationFrame(loopRef.current);
+  }, []);
 
   const stopLoop = useCallback(() => {
     cancelAnimationFrame(animFrameRef.current);
