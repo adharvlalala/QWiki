@@ -50,8 +50,6 @@ export default function Guests() {
           style={{ border: "1px solid #333333" }}
         >
           {GUESTS.map((guest, i) => {
-            // Outer motion.div — clip-path wipe entrance (top → bottom scan)
-            // Inner TiltCard — 3D perspective tilt + specular highlight on hover
             return (
               <motion.div
                 key={guest.id}
@@ -61,10 +59,8 @@ export default function Guests() {
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.215, 0.61, 0.355, 1] }}
                 className={i === 0 ? "col-span-2 md:col-span-2 lg:col-span-1" : "col-span-1"}
               >
-                {/* TiltCard — 3D perspective tilt + specular highlight on hover */}
                 <TiltCard className="flex flex-col h-full cursor-default group relative overflow-hidden bg-[#120F1C] hover:shadow-[0_0_30px_rgba(0,250,154,0.25),inset_0_0_0_1px_#00fa9a] hover:z-10 transition-shadow duration-300">
                   <article className={`flex h-full ${i === 0 ? "flex-row md:flex-row lg:flex-col" : "flex-col"}`}>
-                    {/* Image area */}
                     <div
                       className={`aspect-square relative overflow-hidden bg-[#090710] ${
                         i === 0
@@ -72,7 +68,6 @@ export default function Guests() {
                           : "w-full border-b border-[#333333]"
                       }`}
                     >
-                      {/* Glare sweep on hover */}
                       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white to-transparent opacity-0 group-hover:opacity-10 group-hover:animate-glare transition-opacity z-10 pointer-events-none" />
 
                       {guest.image ? (
@@ -98,7 +93,6 @@ export default function Guests() {
                       )}
                     </div>
 
-                    {/* Bio block */}
                     <div className={`p-3.5 md:p-5 flex-1 flex flex-col justify-center lg:justify-start ${i === 0 ? "w-1/2 md:w-1/2 lg:w-full" : ""}`}>
                       <h3
                         className="text-[12px] md:text-[15px] font-black uppercase tracking-[0.05em] mb-1 group-hover:text-[#00fa9a] transition-colors relative z-10 line-clamp-2"

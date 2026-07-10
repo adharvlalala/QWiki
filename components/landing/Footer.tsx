@@ -10,7 +10,6 @@ const PARTNERS_DATA: { id: string; name: string; role: string; description: stri
   { id: "p5", name: "IIIT Kottayam", role: "Academic Sponsor", description: "Indian Institute of Information Technology Kottayam", isAcademic: true, image: "/images/iiit-kottayam.jpg", bgWhite: true, url: "https://www.iiitkottayam.ac.in" },
 ];
 
-
 export default function Footer({ hidePartners = false }: { hidePartners?: boolean }) {
   const PLATINUM_SPONSORS = PARTNERS_DATA.filter((p) => p.isPlatinum);
   const GOLD_SPONSORS = PARTNERS_DATA.filter((p) => p.isGold);
@@ -23,7 +22,6 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
       className="relative animate-fade-up"
       style={{ backgroundColor: "#090710", borderTop: "1px solid #333333" }}
     >
-      {/* Partners */}
       {!hidePartners && (
         <section
           aria-labelledby="qtm-partners-heading"
@@ -45,9 +43,7 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
             </h2>
           </div>
 
-          {/* Sponsors Tier List */}
           <div className="max-w-[1100px] mx-auto px-6 md:px-8 flex flex-col gap-10">
-            {/* Platinum Tier */}
             {PLATINUM_SPONSORS.length > 0 && (
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap gap-6 justify-center">
@@ -82,7 +78,6 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
               </div>
             )}
 
-            {/* Gold Tier */}
             {GOLD_SPONSORS.length > 0 && (
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-[740px] mx-auto w-full">
@@ -117,7 +112,6 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
               </div>
             )}
 
-            {/* Silver & Academic Tiers Combined */}
             {(SILVER_SPONSORS.length > 0 || ACADEMIC_SPONSORS.length > 0) && (
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap gap-6 justify-center">
@@ -200,13 +194,10 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
         </section>
       )}
 
-      {/* Thick divider */}
       <div style={{ height: "1px", backgroundColor: "#333333" }} />
 
-      {/* Oversized wordmark + links */}
       <div className="px-6 md:px-8 py-16 max-w-[1100px] mx-auto flex flex-col gap-10">
 
-        {/* Massive wordmark — ghost stroke + outlined logo */}
         <div className="flex flex-row items-center justify-between gap-4 md:gap-10">
           <div
             className="font-black select-none leading-[1.15] md:leading-[1.1] tracking-[-0.04em] pr-2"
@@ -231,7 +222,6 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
           </div>
         </div>
 
-        {/* Bottom row */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex flex-col gap-4">
             <p
@@ -277,7 +267,6 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
           </div>
         </div>
 
-        {/* Copyright */}
         <div
           className="flex items-center justify-between pt-4"
           style={{ borderTop: "1px solid #333333" }}
@@ -294,7 +283,6 @@ export default function Footer({ hidePartners = false }: { hidePartners?: boolea
         </div>
 
       </div>
-      {/* SVG filter for outlining transparent PNG */}
       <svg className="absolute w-0 h-0 pointer-events-none" style={{ position: "absolute", width: 0, height: 0 }}>
         <defs>
           <filter id="outline">
