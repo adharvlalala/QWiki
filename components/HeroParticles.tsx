@@ -1,14 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-
-// ── Tuning constants ──────────────────────────────────────────────────────────
 const PARTICLE_COUNT = 48;
 const CURSOR_ATTRACT_RADIUS = 140; // px — cursor pulls particles gently
 const CONNECT_DIST_IDLE = 110;     // px — passive neighbour connections
 const CONNECT_DIST_CURSOR = 160;   // px — connections from cursor to nearby particles
-
-// Qubit colour palette (matches the purple/violet theme)
 const QUBIT_COLORS = [
   "126, 34, 206",   // purple-700
   "168, 85, 247",   // purple-500
@@ -30,8 +26,6 @@ interface Particle {
   phase: number;
   phaseSpeed: number;
 }
-
-// ── Component ─────────────────────────────────────────────────────────────────
 export default function HeroParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef   = useRef<number>(0);
@@ -39,8 +33,6 @@ export default function HeroParticles() {
   const mouse     = useRef({ x: -9999, y: -9999, inside: false });
   const isVisible = useRef(true);
   const isTabActive = useRef(true);
-
-  // ── Initialise particles ─────────────────────────────────────────────────
   const initParticles = useCallback((w: number, h: number) => {
     particles.current = Array.from({ length: PARTICLE_COUNT }, () => {
       const speed = Math.random() * 0.28 + 0.06;
@@ -59,8 +51,6 @@ export default function HeroParticles() {
       };
     });
   }, []);
-
-  // ── Draw one frame ───────────────────────────────────────────────────────
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -73,10 +63,7 @@ export default function HeroParticles() {
     ctx.clearRect(0, 0, W, H);
 
     const pts = particles.current;
-
-    // ── Update positions ─────────────────────────────────────────────────
     pts.forEach((p) => {
-      // Soft cursor attraction / deflection
       if (inside) {
         const dx = mx - p.x;
         const dy = my - p.y;
@@ -87,16 +74,12 @@ export default function HeroParticles() {
           p.vy += (dy / d) * force;
         }
       }
-
-      // Dampen to prevent run-away velocity
       const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
       const maxSpeed = p.speed * 2.8;
       if (speed > maxSpeed) {
         p.vx = (p.vx / speed) * maxSpeed;
         p.vy = (p.vy / speed) * maxSpeed;
       }
-
-      // Drift back to natural speed when cursor is away
       if (!inside || Math.sqrt((mx - p.x) ** 2 + (my - p.y) ** 2) > CURSOR_ATTRACT_RADIUS) {
         p.vx *= 0.995;
         p.vy *= 0.995;
@@ -105,15 +88,11 @@ export default function HeroParticles() {
       p.x += p.vx;
       p.y += p.vy;
       p.phase += p.phaseSpeed;
-
-      // Bounce off edges
       if (p.x < 0)  { p.x = 0;  p.vx *= -1; }
       if (p.x > W)  { p.x = W;  p.vx *= -1; }
       if (p.y < 0)  { p.y = 0;  p.vy *= -1; }
       if (p.y > H)  { p.y = H;  p.vy *= -1; }
     });
-
-    // ── Draw passive particle-to-particle connections ────────────────────
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
         const dx   = pts[i].x - pts[j].x;
@@ -130,8 +109,6 @@ export default function HeroParticles() {
         }
       }
     }
-
-    // ── Draw cursor-to-particle connections (only while hovering) ────────
     if (inside) {
       pts.forEach((p) => {
         const dx   = mx - p.x;
@@ -150,27 +127,19 @@ export default function HeroParticles() {
           ctx.stroke();
         }
       });
-
-      // Cursor dot
       ctx.beginPath();
       ctx.arc(mx, my, 2.5, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${LINE_COLOR}, 0.55)`;
       ctx.fill();
     }
-
-    // ── Draw qubit particles ─────────────────────────────────────────────
     pts.forEach((p) => {
       const color = QUBIT_COLORS[p.colorIdx];
-
-      // Pulsing outer ring
       const ringR = p.radius + 3 + Math.sin(p.phase) * 1.5;
       ctx.beginPath();
       ctx.arc(p.x, p.y, ringR, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${color}, ${p.opacity * 0.25 + Math.sin(p.phase) * 0.08})`;
       ctx.lineWidth   = 0.7;
       ctx.stroke();
-
-      // Inner glow core
       const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 2.5);
       grad.addColorStop(0, `rgba(${color}, ${p.opacity})`);
       grad.addColorStop(1, `rgba(${color}, 0)`);
@@ -178,16 +147,12 @@ export default function HeroParticles() {
       ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
       ctx.fillStyle = grad;
       ctx.fill();
-
-      // Solid core dot
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${color}, ${p.opacity + 0.2})`;
       ctx.fill();
     });
   }, []);
-
-  // ── Animation loop ───────────────────────────────────────────────────────
   const loopRef = useRef<() => void>(() => {});
   useEffect(() => {
     loopRef.current = () => {
@@ -205,8 +170,6 @@ export default function HeroParticles() {
   const stopLoop = useCallback(() => {
     cancelAnimationFrame(animRef.current);
   }, []);
-
-  // ── Mount / resize / observers ───────────────────────────────────────────
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -225,8 +188,6 @@ export default function HeroParticles() {
 
     const ro = new ResizeObserver(resize);
     if (parent) ro.observe(parent);
-
-    // Pause when hero scrolls out of view
     const io = new IntersectionObserver(
       ([entry]) => {
         isVisible.current = entry.isIntersecting;
@@ -235,15 +196,11 @@ export default function HeroParticles() {
       { threshold: 0 }
     );
     io.observe(canvas);
-
-    // Pause on hidden tab
     const onVisibility = () => {
       isTabActive.current = document.visibilityState === "visible";
       isTabActive.current ? startLoop() : stopLoop();
     };
     document.addEventListener("visibilitychange", onVisibility);
-
-    // Mouse tracking — relative to the canvas
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouse.current.x      = e.clientX - rect.left;
@@ -253,8 +210,6 @@ export default function HeroParticles() {
     const onMouseLeave = () => {
       mouse.current.inside = false;
     };
-
-    // Attach to the parent section so the whole hero area is reactive
     const target = parent ?? canvas;
     target.addEventListener("mousemove",  onMouseMove  as EventListener);
     target.addEventListener("mouseleave", onMouseLeave as EventListener);

@@ -4,8 +4,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 
-// ── Placeholder Data Arrays ──────────────────────────────────────────────────
-
 const MANDATE_DATA = [
   {
     title: "Mission & Vision",
@@ -52,8 +50,6 @@ const ECOSYSTEM_LINKS = [
   { title: "Partner Labs", url: "#", description: "Academic and industry laboratories." },
   { title: "Developer Tools", url: "#", description: "SDKs, simulators, and open-source repos." },
 ];
-
-// ── Main Page Component ──────────────────────────────────────────────────────
 export default function AboutPage() {
   return (
     <>

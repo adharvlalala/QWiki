@@ -16,8 +16,6 @@ export default async function DashboardLayout({
   if (!user) {
     redirect("/login");
   }
-
-  // Fetch user profile (role, display_name)
   const { data: profile } = await supabase
     .from("users")
     .select("role, display_name")

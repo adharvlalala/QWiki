@@ -4,8 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { slugify, readingTime } from "@/lib/utils";
 
-// ── Types ─────────────────────────────────────────────────────────────────
-
 export type SubmissionState = {
   error?: string;
   success?: boolean;
@@ -15,8 +13,6 @@ export type SubmissionState = {
     category?: string;
   };
 };
-
-// ── Contributor Actions ───────────────────────────────────────────────────
 
 /**
  * Create a new wiki contribution (draft → pending_review).
@@ -40,8 +36,6 @@ export async function createSubmission(
   const category = (formData.get("category") as string)?.trim();
   const tagsRaw = (formData.get("tags") as string)?.trim() ?? "";
   const authorNote = (formData.get("author_note") as string)?.trim() ?? "";
-
-  // Validation
   const fieldErrors: SubmissionState["fieldErrors"] = {};
   if (!title || title.length < 5)
     fieldErrors.title = "Title must be at least 5 characters.";
@@ -74,7 +68,6 @@ export async function createSubmission(
   });
 
   if (error) {
-    // Slug conflict
     if (error.code === "23505") {
       return { fieldErrors: { title: "An article with this title already exists. Please choose a different title." } };
     }
@@ -83,8 +76,6 @@ export async function createSubmission(
 
   return { success: true };
 }
-
-// ── Editor Actions ────────────────────────────────────────────────────────
 
 /**
  * Approve a pending submission: copy it to wiki_articles, mark as approved.
@@ -96,8 +87,6 @@ export async function approveSubmission(id: string): Promise<void> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
-
-  // Fetch the contribution
   const { data: contrib, error: fetchError } = await supabase
     .from("wiki_contributions")
     .select("*")
@@ -105,8 +94,6 @@ export async function approveSubmission(id: string): Promise<void> {
     .single();
 
   if (fetchError || !contrib) throw new Error("Submission not found.");
-
-  // Insert into wiki_articles
   const { error: insertError } = await supabase.from("wiki_articles").insert({
     slug: contrib.slug,
     title: contrib.title,
@@ -122,7 +109,6 @@ export async function approveSubmission(id: string): Promise<void> {
   });
 
   if (insertError) {
-    // Slug conflict: append a suffix
     const slugWithSuffix = `${contrib.slug}-${Date.now()}`;
     await supabase.from("wiki_articles").insert({
       slug: slugWithSuffix,
@@ -138,8 +124,6 @@ export async function approveSubmission(id: string): Promise<void> {
       stars: 0,
     });
   }
-
-  // Mark contribution as approved
   await supabase
     .from("wiki_contributions")
     .update({ status: "approved" })

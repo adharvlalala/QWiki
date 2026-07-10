@@ -26,7 +26,6 @@ export async function signInWithMagicLink(
     email,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
-      // shouldCreateUser: true means new users are auto-registered
       shouldCreateUser: true,
     },
   });

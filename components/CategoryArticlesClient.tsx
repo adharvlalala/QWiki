@@ -44,7 +44,6 @@ export default function CategoryArticlesClient({
     try {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
       if (!supabaseUrl || supabaseUrl === "your-supabase-url") {
-        // Dev mode fallback — no more database items to load
         setHasMore(false);
         return;
       }

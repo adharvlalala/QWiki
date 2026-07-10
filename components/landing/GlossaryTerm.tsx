@@ -3,9 +3,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
-// ── Glossary Data ─────────────────────────────────────────────────────────────
-// Add new entries here. The key is the `id` prop passed from the call site.
 const ENTRIES: Record<string, { term: string; type: string; definition: string }> = {
   "lab-simulations": {
     term: "Quantum Lab Simulations",
@@ -70,8 +67,6 @@ const ENTRIES: Record<string, { term: string; type: string; definition: string }
 };
 
 const CARD_WIDTH = 264;
-
-// ── Corner bracket helper ─────────────────────────────────────────────────────
 type Corner = "tl" | "tr" | "bl" | "br";
 function CornerBracket({ corner }: { corner: Corner }) {
   return (
@@ -91,8 +86,6 @@ function CornerBracket({ corner }: { corner: Corner }) {
     />
   );
 }
-
-// ── GlossaryTerm ──────────────────────────────────────────────────────────────
 /**
  * GlossaryTerm
  *
@@ -111,7 +104,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
   const closeTimerRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [open, setOpen] = useState(false);
   const [cardStyle, setCardStyle] = useState<React.CSSProperties>({});
-  // Portal mount guard — prevents SSR/hydration errors with document.body
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -120,13 +112,10 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
   }, []);
 
   const entry = ENTRIES[id];
-
-  // Calculate fixed-position coordinates from the trigger's bounding rect
   const computeCardStyle = useCallback((): React.CSSProperties => {
     if (!triggerRef.current) return {};
     const rect = triggerRef.current.getBoundingClientRect();
     const above = rect.top > window.innerHeight * 0.55;
-    // Clamp left edge so card never overflows viewport horizontally
     const rawLeft = rect.left + rect.width / 2;
     const clampedLeft = Math.max(
       CARD_WIDTH / 2 + 12,
@@ -140,8 +129,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
         : { top: `${rect.bottom + 10}px` }),
     };
   }, []);
-
-  // ── Hover / touch lifecycle ────────────────────────────────────────────────
   const scheduleClose = () => {
     closeTimerRef.current = setTimeout(() => setOpen(false), 120);
   };
@@ -172,8 +159,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     scheduleClose();
   };
-
-  // Mobile: tap trigger to toggle
   const handleClick = () => {
     if (open) {
       setOpen(false);
@@ -181,8 +166,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
       openCard();
     }
   };
-
-  // Close card when tapping/clicking outside (mobile)
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent | TouchEvent) => {
@@ -197,8 +180,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
       document.removeEventListener("touchstart", handler);
     };
   }, [open]);
-
-  // Cleanup timer on unmount
   useEffect(() => () => clearTimeout(closeTimerRef.current), []);
 
   if (!entry) return <>{children}</>;

@@ -28,8 +28,6 @@ export async function GET(request: Request) {
       }
     }
   }
-
-  // Auth error — redirect to login with error state
   return NextResponse.redirect(`${origin}/login?error=auth_callback_error`);
 }
 

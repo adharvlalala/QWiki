@@ -27,8 +27,6 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { slugify } from "@/lib/utils";
-
-// ── Constants ──────────────────────────────────────────────────────────────
 const CATEGORIES = [
   "Fundamentals",
   "Computing",
@@ -70,8 +68,6 @@ Describe real-world uses or implications.
 - Link to related articles
 - Reference materials
 `;
-
-// ── Markdown toolbar buttons ───────────────────────────────────────────────
 const TOOLBAR = [
   { label: "B", title: "Bold", wrap: ["**", "**"], mono: true },
   { label: "I", title: "Italic", wrap: ["_", "_"], mono: false },
@@ -82,13 +78,9 @@ const TOOLBAR = [
   { label: "```", title: "Code block", wrap: ["```\n", "\n```"], mono: true },
   { label: "🔗", title: "Link", wrap: ["[", "](url)"], mono: false },
 ];
-
-// ── Types ──────────────────────────────────────────────────────────────────
 type ContribType = "new" | "edit";
 type Tab = "write" | "preview";
 type Status = "idle" | "submitting" | "success" | "error";
-
-// ── MarkdownEditor component ───────────────────────────────────────────────
 function MarkdownEditor({
   value,
   onChange,
@@ -109,7 +101,6 @@ function MarkdownEditor({
       const next =
         value.slice(0, s) + prefix + sel + suffix + value.slice(e);
       onChange(next);
-      // Restore focus and selection
       requestAnimationFrame(() => {
         ta.focus();
         ta.setSelectionRange(
@@ -231,10 +222,7 @@ function MarkdownEditor({
     </div>
   );
 }
-
-// ── Main Page ──────────────────────────────────────────────────────────────
 export default function ContributePage() {
-  // Form state
   const [type, setType] = useState<ContribType>("new");
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -245,8 +233,6 @@ export default function ContributePage() {
   const [authorName, setAuthorName] = useState("");
   const [authorNote, setAuthorNote] = useState("");
   const [targetSlug, setTargetSlug] = useState("");
-
-  // UI state
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -288,8 +274,6 @@ export default function ContributePage() {
       setStatus("error");
     }
   };
-
-  // ── Success screen ─────────────────────────────────────────────────────
   if (status === "success") {
     return (
       <>
@@ -348,8 +332,6 @@ export default function ContributePage() {
       </>
     );
   }
-
-  // ── Main form ──────────────────────────────────────────────────────────
   return (
     <>
       <Navbar />
@@ -922,8 +904,6 @@ export default function ContributePage() {
     </>
   );
 }
-
-// ── FormField helper ───────────────────────────────────────────────────────
 function FormField({
   label,
   htmlFor,

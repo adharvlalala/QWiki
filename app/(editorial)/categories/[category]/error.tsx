@@ -13,7 +13,6 @@ export default function CategoryError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service if available
     console.error("Category page error:", error);
   }, [error]);
 

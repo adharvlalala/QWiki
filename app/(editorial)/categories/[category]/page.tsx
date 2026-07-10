@@ -5,8 +5,6 @@ import { ChevronRight, ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { createPublicClient } from "@/lib/supabase/public";
 import CategoryArticlesClient from "@/components/CategoryArticlesClient";
-
-// ── Types ──────────────────────────────────────────────────────────────────
 interface WikiArticle {
   id: string;
   slug: string;
@@ -24,8 +22,6 @@ interface WikiArticle {
 interface Props {
   params: Promise<{ category: string }>;
 }
-
-// ── Constants ──────────────────────────────────────────────────────────────
 export const CATEGORY_SLUG_MAP: Record<string, string> = {
   fundamentals: "Fundamentals",
   computing: "Quantum Computing",
@@ -50,8 +46,6 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
 };
 
 const LIMIT = 12;
-
-// ── Mock Fallback Data ──────────────────────────────────────────────────────
 const MOCK_ARTICLES: Record<string, WikiArticle[]> = {
   "Fundamentals": [
     {
@@ -220,8 +214,6 @@ const MOCK_ARTICLES: Record<string, WikiArticle[]> = {
     }
   ]
 };
-
-// ── Static Parameters Generation ───────────────────────────────────────────
 export function generateStaticParams() {
   return [
     { category: "fundamentals" },
@@ -234,8 +226,6 @@ export function generateStaticParams() {
     { category: "cryptography" },
   ];
 }
-
-// ── Dynamic Metadata ────────────────────────────────────────────────────────
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { category } = await params;
   const dbCategoryName = CATEGORY_SLUG_MAP[category.toLowerCase()];
@@ -249,13 +239,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: CATEGORY_DESCRIPTIONS[dbCategoryName] || `Explore QWiki articles related to ${dbCategoryName}.`,
   };
 }
-
-// ── Main Server Component ──────────────────────────────────────────────────
 export default async function CategoryPage({ params }: Props) {
   const { category } = await params;
   const dbCategoryName = CATEGORY_SLUG_MAP[category.toLowerCase()];
-
-  // Validate the slug
   if (!dbCategoryName) {
     notFound();
   }
@@ -281,11 +267,9 @@ export default async function CategoryPage({ params }: Props) {
       initialArticles = (data ?? []) as WikiArticle[];
     } catch (err) {
       console.error(`Error fetching articles for category ${dbCategoryName}:`, err);
-      // Fallback to mock data in case of database fetch failure
       initialArticles = MOCK_ARTICLES[dbCategoryName] ?? [];
     }
   } else {
-    // Fallback to mock data in dev/testing mode when Supabase is not connected
     initialArticles = MOCK_ARTICLES[dbCategoryName] ?? [];
   }
 

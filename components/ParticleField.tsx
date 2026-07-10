@@ -44,16 +44,12 @@ export default function ParticleField() {
     ctx.clearRect(0, 0, w, h);
 
     const particles = particlesRef.current;
-
-    // Update positions
     particles.forEach((p) => {
       p.x += p.vx;
       p.y += p.vy;
       if (p.x < 0 || p.x > w) p.vx *= -1;
       if (p.y < 0 || p.y > h) p.vy *= -1;
     });
-
-    // Draw connections
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
@@ -71,8 +67,6 @@ export default function ParticleField() {
         }
       }
     }
-
-    // Draw particles
     particles.forEach((p) => {
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -113,8 +107,6 @@ export default function ParticleField() {
     startLoop();
 
     window.addEventListener("resize", resize);
-
-    // ── IntersectionObserver — pause when off-screen ───────────────
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
@@ -123,8 +115,6 @@ export default function ParticleField() {
       { threshold: 0 }
     );
     observer.observe(canvas);
-
-    // ── Page Visibility API — pause on hidden tab ──────────────────
     const handleVisibilityChange = () => {
       isTabActiveRef.current = document.visibilityState === "visible";
       isTabActiveRef.current ? startLoop() : stopLoop();

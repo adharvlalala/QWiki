@@ -19,8 +19,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
-
-// ── Rotating prompt copy ───────────────────────────────────────────────────
 const PROMPTS = [
   { eyebrow: "What are you curious about?", headline: "Search the quantum frontier." },
   { eyebrow: "The universe is non-classical.", headline: "Find your next discovery." },
@@ -29,8 +27,6 @@ const PROMPTS = [
   { eyebrow: "Science is a living document.", headline: "Read. Learn. Contribute." },
   { eyebrow: "Bell states, Shor, and beyond.", headline: "Your quantum reference." },
 ];
-
-// ── Placeholder text cycles inside the search input ───────────────────────
 const INPUT_PLACEHOLDERS = [
   "Search quantum entanglement…",
   "Search superposition states…",
@@ -40,8 +36,6 @@ const INPUT_PLACEHOLDERS = [
   "Search quantum error correction…",
   "Search Bell inequality…",
 ];
-
-// ── Category quick-links ───────────────────────────────────────────────────
 const CATEGORIES = [
   { label: "Fundamentals", icon: <BookOpen size={16} />, href: "/categories/fundamentals" },
   { label: "Computing", icon: <Cpu size={16} />, href: "/categories/computing" },
@@ -52,8 +46,6 @@ const CATEGORIES = [
   { label: "Photonics", icon: <Atom size={16} />, href: "/categories/photonics" },
   { label: "Cryptography", icon: <GitBranch size={16} />, href: "/categories/cryptography" },
 ];
-
-// ── Search result type ─────────────────────────────────────────────────────
 interface SearchResult {
   id: string;
   slug: string;
@@ -61,8 +53,6 @@ interface SearchResult {
   excerpt: string;
   category: string;
 }
-
-// ── WikiSearchBar (hero-sized, standalone) ─────────────────────────────────
 function WikiSearchBar() {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
@@ -71,8 +61,6 @@ function WikiSearchBar() {
   const [phIdx, setPhIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-
-  // Cycle placeholder
   useEffect(() => {
     const id = setInterval(
       () => setPhIdx((i) => (i + 1) % INPUT_PLACEHOLDERS.length),
@@ -80,8 +68,6 @@ function WikiSearchBar() {
     );
     return () => clearInterval(id);
   }, []);
-
-  // Debounced search
   const search = useCallback(async (q: string) => {
     if (q.length < 2) { setResults([]); return; }
     abortRef.current?.abort();
@@ -262,13 +248,9 @@ function WikiSearchBar() {
     </div>
   );
 }
-
-// ── Page ───────────────────────────────────────────────────────────────────
 export default function WikiHomePage() {
   const [promptIdx, setPromptIdx] = useState(0);
   const [visible, setVisible] = useState(true);
-
-  // Rotate prompt every 7 s with a fade-out / fade-in
   useEffect(() => {
     const id = setInterval(() => {
       setVisible(false);

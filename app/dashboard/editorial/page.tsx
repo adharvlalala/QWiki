@@ -14,8 +14,6 @@ export default async function EditorialIndexPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-
-  // Verify editor role
   const { data: profile } = await supabase
     .from("users")
     .select("role")
@@ -25,8 +23,6 @@ export default async function EditorialIndexPage() {
   if (!profile || profile.role !== "editor") {
     redirect("/dashboard/contributor");
   }
-
-  // Fetch all pending_review submissions
   const { data: submissions } = await supabase
     .from("wiki_contributions")
     .select("id, title, category, author_name, created_at, status")

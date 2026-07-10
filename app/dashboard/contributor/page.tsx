@@ -7,8 +7,6 @@ export const metadata: Metadata = {
   title: "My Submissions — QWiki Dashboard",
 };
 
-// ── Status tag styles ─────────────────────────────────────────────────────
-
 const STATUS_LABEL: Record<string, string> = {
   pending_review: "PENDING",
   approved: "PUBLISHED",
@@ -21,8 +19,6 @@ const STATUS_COLOR: Record<string, string> = {
   rejected: "#000000",
 };
 
-// ── Page ──────────────────────────────────────────────────────────────────
-
 export default async function ContributorDashboardPage() {
   const supabase = await createClient();
 
@@ -31,8 +27,6 @@ export default async function ContributorDashboardPage() {
   } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
-
-  // Fetch the contributor's own submissions
   const { data: submissions } = await supabase
     .from("wiki_contributions")
     .select("id, title, category, status, feedback_note, created_at")

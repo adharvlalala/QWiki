@@ -41,8 +41,6 @@ export default function SearchBar({
   const [placeholderIdx, setPlaceholderIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-
-  // Cycle placeholder text
   useEffect(() => {
     if (placeholder) return;
     const id = setInterval(
@@ -51,8 +49,6 @@ export default function SearchBar({
     );
     return () => clearInterval(id);
   }, [placeholder]);
-
-  // Debounced search
   const search = useCallback(async (q: string) => {
     if (q.length < 2) {
       setResults([]);

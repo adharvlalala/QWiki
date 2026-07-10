@@ -19,8 +19,6 @@ import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import HeroParticles from "@/components/HeroParticles";
 
-// ── Data ──────────────────────────────────────────────────────────────────
-
 const CATEGORIES = [
   { label: "Fundamentals", icon: <BookOpen size={20} />, color: "#000000" },
   { label: "Computing", icon: <Cpu size={20} />, color: "#000000" },
@@ -31,9 +29,6 @@ const CATEGORIES = [
   { label: "Photonics", icon: <Atom size={20} />, color: "#000000" },
   { label: "Cryptography", icon: <GitBranch size={20} />, color: "#000000" },
 ];
-
-
-// ── Page ──────────────────────────────────────────────────────────────────
 export default function HomePage() {
   return (
     <>

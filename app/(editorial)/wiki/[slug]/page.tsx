@@ -33,8 +33,6 @@ interface WikiArticle {
 interface Props {
   params: Promise<{ slug: string }>;
 }
-
-// ── Generate static params from Supabase ────────────────────────────────
 export async function generateStaticParams() {
   try {
     const supabase = createPublicClient();
@@ -48,8 +46,6 @@ export async function generateStaticParams() {
     return [];
   }
 }
-
-// ── Dynamic metadata ─────────────────────────────────────────────────────
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
@@ -71,8 +67,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: "QWiki" };
   }
 }
-
-// ── Table of Contents parser ─────────────────────────────────────────────
 function extractHeadings(markdown: string) {
   const regex = /^(#{1,3})\s+(.+)$/gm;
   const headings: { level: number; text: string; id: string }[] = [];
@@ -84,8 +78,6 @@ function extractHeadings(markdown: string) {
   }
   return headings;
 }
-
-// ── Fallback demo article (shown when Supabase is not configured) ─────────
 const DEMO_ARTICLE: WikiArticle = {
   id: "demo",
   slug: "quantum-entanglement",
@@ -133,15 +125,11 @@ John Bell (1964) devised a mathematical inequality (Bell inequalities) that, if 
   tags: ["entanglement", "bell-states", "EPR", "foundations"],
   stars: 1204,
 };
-
-// ── Page ──────────────────────────────────────────────────────────────────
 export default async function WikiArticlePage({ params }: Props) {
   const { slug } = await params;
 
   let article: WikiArticle | null = null;
   let editorName: string | null = null;
-
-  // Try fetching from Supabase; fall back to demo article
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   if (supabaseUrl && supabaseUrl !== "your-supabase-url") {
     try {
@@ -174,7 +162,6 @@ export default async function WikiArticlePage({ params }: Props) {
       notFound();
     }
   } else {
-    // Use demo article when Supabase is not yet configured
     article = slug === DEMO_ARTICLE.slug ? DEMO_ARTICLE : null;
     if (!article) notFound();
   }

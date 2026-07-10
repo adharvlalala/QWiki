@@ -14,8 +14,6 @@ export default async function EditSubmissionPage({ params }: PageProps) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-
-  // Verify editor role
   const { data: profile } = await supabase
     .from("users")
     .select("role")
@@ -25,8 +23,6 @@ export default async function EditSubmissionPage({ params }: PageProps) {
   if (!profile || profile.role !== "editor") {
     redirect("/dashboard/contributor");
   }
-
-  // Fetch submission
   const { data: submission, error } = await supabase
     .from("wiki_contributions")
     .select("id, title, content, tags")

@@ -48,8 +48,6 @@ def quantum_state(alpha, beta):
 \`\`\`
 `;
 
-// ── Markdown Preview Component ────────────────────────────────────────────
-
 function MarkdownPreview({ content }: { content: string }) {
   return (
     <div
@@ -261,8 +259,6 @@ function MarkdownPreview({ content }: { content: string }) {
     </div>
   );
 }
-
-// ── Main Submit Page ──────────────────────────────────────────────────────
 
 export default function SubmitPage() {
   const [state, action, pending] = useActionState(createSubmission, undefined);
@@ -546,7 +542,6 @@ export default function SubmitPage() {
               disabled={pending || !title || !content}
               onClick={(e) => {
                 e.preventDefault();
-                // Sync textarea values to form hidden fields before submit
                 const form = document.getElementById("submit-form") as HTMLFormElement;
                 const titleInput = form.querySelector("[name='title']") as HTMLInputElement;
                 const contentInput = form.querySelector("[name='content']") as HTMLInputElement;

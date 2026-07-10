@@ -24,8 +24,6 @@ export async function inviteEditor(
   if (!email || !email.includes("@")) {
     return { error: "Please enter a valid email address." };
   }
-
-  // Verify the calling user is an editor
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -40,8 +38,6 @@ export async function inviteEditor(
   if (!profile || profile.role !== "editor") {
     return { error: "Only editors can invite new editors." };
   }
-
-  // Use service role client for admin operations
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceRoleKey) {
     return { error: "Server configuration error: service role key missing." };
@@ -68,7 +64,6 @@ export async function inviteEditor(
 
   if (inviteError) {
     if (inviteError.message.includes("already been registered")) {
-      // User exists — just promote them to editor role
       const { error: updateError } = await adminClient
         .from("users")
         .update({ role: "editor" })
@@ -79,12 +74,6 @@ export async function inviteEditor(
     }
     return { error: inviteError.message };
   }
-
-  // After the invited user accepts, a trigger will create their public.users row.
-  // We set their role to 'editor' via a separate update after their account exists.
-  // For now, store the pending invite intent so the trigger can check it.
-  // Simple approach: after invite completes, the admin must promote via the dashboard UI
-  // (which calls this action with the existing user path above).
 
   return { success: true };
 }

@@ -24,8 +24,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = await createClient();
-
-    // ── Full-text search (always runs) ────────────────────────────────
     const { data: ftsResults, error: ftsError } = await supabase
       .from("wiki_articles")
       .select("id, slug, title, excerpt, category, reading_time, updated_at")
@@ -34,28 +32,6 @@ export async function GET(request: NextRequest) {
       .limit(limit);
 
     if (ftsError) throw ftsError;
-
-    // ── pgvector Semantic Search (placeholder) ────────────────────────
-    // TODO: Replace this section with a real embedding call.
-    //
-    // STEP 1: Generate embedding from query string
-    // const embedding = await generateEmbedding(query);
-    //
-    // STEP 2: Call the Supabase RPC function (match_articles)
-    // CREATE OR REPLACE FUNCTION match_articles(
-    //   query_embedding vector(1536),
-    //   match_threshold float,
-    //   match_count int
-    // ) RETURNS TABLE (id uuid, slug text, title text, similarity float) ...
-    //
-    // const { data: vectorResults } = await supabase.rpc("match_articles", {
-    //   query_embedding: embedding,
-    //   match_threshold: 0.7,
-    //   match_count: limit,
-    // });
-    //
-    // STEP 3: Merge + deduplicate ftsResults and vectorResults by id
-    // ──────────────────────────────────────────────────────────────────
 
     return NextResponse.json({
       results: ftsResults ?? [],

@@ -3,8 +3,6 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export const runtime = "edge";
-
-// ── Sliding Window Rate Limiter (Spam Prevention) ───────────────────────────
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window
 const MAX_REQUESTS_PER_WINDOW = 5;
 const ipRequestCache = new Map<string, number[]>();
@@ -12,8 +10,6 @@ const ipRequestCache = new Map<string, number[]>();
 function checkRateLimit(ip: string): { limitReached: boolean } {
   const now = Date.now();
   const timestamps = ipRequestCache.get(ip) || [];
-  
-  // Keep only timestamps within the current window
   const recentTimestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
   
   if (recentTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
@@ -73,8 +69,6 @@ export async function POST(request: NextRequest) {
       author_note,
       target_slug,
     } = body;
-
-    // ── Basic validation ─────────────────────────────────────────────────
     if (!title?.trim() || !content?.trim() || !slug?.trim()) {
       return NextResponse.json(
         { error: "Title, slug and content are required." },
@@ -88,11 +82,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    // ── Dev / no-Supabase fallback ───────────────────────────────────────
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     if (!supabaseUrl || supabaseUrl === "your-supabase-url") {
-      // Simulate a successful submission in development
       return NextResponse.json({
         success: true,
         id: `mock-${Date.now()}`,
@@ -101,8 +92,6 @@ export async function POST(request: NextRequest) {
           "Wire up NEXT_PUBLIC_SUPABASE_URL to persist submissions.",
       });
     }
-
-    // ── Persist to Supabase ──────────────────────────────────────────────
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -128,8 +117,6 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) throw error;
-
-    // Call Next.js on-demand revalidation
     try {
       if (category) {
         const catSlug = category.toLowerCase().trim().replace(/[\s_]+/g, "-");

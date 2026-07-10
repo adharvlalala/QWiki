@@ -6,8 +6,6 @@ import { signInWithMagicLink } from "@/app/actions/auth";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-// ── Inner Form Component ───────────────────────────────────────────────────
-
 function LoginForm() {
   const searchParams = useSearchParams();
   const authError = searchParams.get("error");
@@ -206,8 +204,6 @@ function LoginForm() {
     </div>
   );
 }
-
-// ── Page ──────────────────────────────────────────────────────────────────
 
 export default function LoginPage() {
   return (

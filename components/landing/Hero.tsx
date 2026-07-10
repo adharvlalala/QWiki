@@ -4,8 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import CountdownTimer from "./CountdownTimer";
 
-// ── Quantum Superposition Canvas — strict neo-brutalist palette ──────────────
-
 interface QNode {
   baseX: number; baseY: number;
   radius: number; opacity: number;
@@ -69,8 +67,6 @@ function QuantumCanvas() {
 
       ctx.clearRect(0, 0, W, H);
       const nodes = nodesRef.current;
-
-      // update superposition
       for (const n of nodes) {
         const dx = n.baseX - mx, dy = n.baseY - my;
         const dist = Math.sqrt(dx * dx + dy * dy);
@@ -85,8 +81,6 @@ function QuantumCanvas() {
         n.ghost2X = n.baseX - Math.cos(n.ghostOffsetAngle + t * 2.5) * amp;
         n.ghost2Y = n.baseY - Math.sin(n.ghostOffsetAngle + t * 2.5) * amp * 0.6;
       }
-
-      // connection lines — #333333 base, #7B2FBE when super
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const a = nodes[i], b = nodes[j];
@@ -104,11 +98,8 @@ function QuantumCanvas() {
           ctx.stroke();
         }
       }
-
-      // draw nodes
       for (const n of nodes) {
         const ga = n.opacity + n.superState * 0.5;
-        // Base node
         ctx.beginPath();
         ctx.arc(n.baseX, n.baseY, n.radius + n.collapseFlash * 4, 0, Math.PI * 2);
         ctx.fillStyle = n.superState > 0.05 
@@ -117,17 +108,14 @@ function QuantumCanvas() {
         ctx.fill();
 
         if (n.superState > 0.05) {
-          // Ghost 1
           ctx.beginPath();
           ctx.arc(n.ghost1X, n.ghost1Y, n.radius * 0.85, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(0, 250, 154, ${(ga * 0.8).toFixed(3)})`;
           ctx.fill();
-          // Ghost 2
           ctx.beginPath();
           ctx.arc(n.ghost2X, n.ghost2Y, n.radius * 0.85, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(0, 250, 154, ${(ga * 0.8).toFixed(3)})`;
           ctx.fill();
-          // Dashed link
           ctx.save();
           ctx.setLineDash([2, 4]);
           ctx.beginPath();
@@ -153,8 +141,6 @@ function QuantumCanvas() {
       mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
     const onLeave = () => { mouseRef.current = { x: -9999, y: -9999 }; };
-
-    // ── Touch support: map first touch point to mouse position ──────────
     let rafTouchId: number | null = null;
     const onTouch = (e: TouchEvent) => {
       if (e.touches.length !== 1) return;
@@ -193,8 +179,6 @@ function QuantumCanvas() {
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" />;
 }
-
-// ── Cryptographic Glitch ──────────────────────────────────────────────────────
 
 const HEX_CHARS = "0123456789ABCDEF!#$@%&?><~";
 
@@ -239,16 +223,10 @@ function useGlitchText(target: string, delay: number = 0): string {
   return display;
 }
 
-
-
-// ── Hero ──────────────────────────────────────────────────────────────────────
-
 export default function Hero() {
   const line1 = useGlitchText("Quantum Tech", 300);
   const line2 = useGlitchText("Matrix.", 700);
   const [line2Settled, setLine2Settled] = useState(false);
-
-  // Refs for direct DOM manipulation (avoids re-renders on every mousemove)
   const sectionRef = useRef<HTMLElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const line2SettledRef = useRef(false);
@@ -260,13 +238,10 @@ export default function Hero() {
     }, 2400);
     return () => clearTimeout(t);
   }, []);
-
-  // ── Chromatic aberration — desktop mousemove ─────────────────────────────
   useEffect(() => {
     const section = sectionRef.current;
     const h1 = h1Ref.current;
     if (!section || !h1) return;
-    // Respect prefers-reduced-motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let rafId: number;
@@ -277,7 +252,6 @@ export default function Hero() {
         const rect = section.getBoundingClientRect();
         const dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
         const dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-        // Cyan shadow offset right, magenta offset left — classic CRT aberration
         h1.style.textShadow = `${
           dx * 3.5
         }px ${dy * 1.2}px 0 rgba(0,245,255,0.42), ${
@@ -288,7 +262,6 @@ export default function Hero() {
 
     const onLeave = () => {
       cancelAnimationFrame(rafId);
-      // Smooth dissolve on leave instead of snapping to none
       h1.style.transition = "text-shadow 0.6s ease";
       h1.style.textShadow = "none";
       setTimeout(() => { if (h1Ref.current) h1Ref.current.style.transition = ""; }, 620);
@@ -302,8 +275,6 @@ export default function Hero() {
       section.removeEventListener("mouseleave", onLeave);
     };
   }, []);
-
-  // ── Chromatic aberration — mobile device tilt ────────────────────────────
   useEffect(() => {
     if (typeof window === "undefined" || !("ontouchstart" in window)) return;
     if (!window.DeviceOrientationEvent) return;

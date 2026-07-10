@@ -24,24 +24,17 @@ export function TiltCard({
   style?: React.CSSProperties;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-
-  // Rotation springs — tight stiffness for responsiveness, enough damping to avoid jitter
   const rotX = useSpring(0, { stiffness: 280, damping: 24 });
   const rotY = useSpring(0, { stiffness: 280, damping: 24 });
-
-  // Specular highlight position springs — follows cursor
   const glowX = useSpring(50, { stiffness: 280, damping: 24 });
   const glowY = useSpring(50, { stiffness: 280, damping: 24 });
   const glowOpacity = useSpring(0, { stiffness: 280, damping: 24 });
-
-  // Motion template generates the reactive gradient string
   const specularBg = useMotionTemplate`radial-gradient(circle at ${glowX}% ${glowY}%, rgba(255,255,255,0.09) 0%, transparent 55%)`;
 
   function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     if (!ref.current) return;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
-    // Normalize to −0.5 → 0.5 range
     const nx = (e.clientX - left) / width - 0.5;
     const ny = (e.clientY - top) / height - 0.5;
     rotX.set(-ny * 10);  // max ±5° vertical tilt
@@ -55,7 +48,6 @@ export function TiltCard({
     rotX.set(0);
     rotY.set(0);
     glowOpacity.set(0);
-    // glowX/Y intentionally not reset — prevents harsh jump on re-enter
   }
 
   return (

@@ -16,8 +16,6 @@ import {
 
 import Navbar from "@/components/Navbar";
 
-// ── Data ──────────────────────────────────────────────────────────────────
-
 const CATEGORIES = [
   { label: "Fundamentals", icon: <BookOpen size={20} />, color: "#000000" },
   { label: "Computing", icon: <Cpu size={20} />, color: "#000000" },

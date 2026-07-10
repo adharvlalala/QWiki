@@ -23,7 +23,6 @@ export default function MagneticButton({ children }: { children: React.ReactNode
     const { left, top, width, height } = containerRef.current.getBoundingClientRect();
     const dx = e.clientX - (left + width / 2);
     const dy = e.clientY - (top + height / 2);
-    // Clamp to ±8px — enough to feel magnetic, not enough to feel broken
     x.set(Math.max(-8, Math.min(8, dx * 0.18)));
     y.set(Math.max(-8, Math.min(8, dy * 0.18)));
   }
