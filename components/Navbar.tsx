@@ -87,17 +87,14 @@ export default function Navbar() {
                 href="/login"
                 id="navbar-login"
                 className={cn(
-                  "relative overflow-hidden flex items-center justify-center text-[13px] font-bold text-black uppercase tracking-[0.04em]",
-                  "px-4 py-2 bg-[#00fa9a] border-2 border-black shadow-[4px_4px_0px_#000000]",
-                  "transition-all duration-150",
-                  "hover:-translate-y-[2px] hover:-translate-x-[2px] hover:shadow-[6px_6px_0px_#000000]",
-                  "active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0px_#000000]",
-                  "focus-visible:outline-none focus-visible:underline"
+                  "flex items-center justify-center text-[13px] font-medium text-black",
+                  "px-4 py-1.5 border border-[#E5E5E5] rounded-full",
+                  "hover:bg-[#f9f9f9] hover:border-[#D1D1D1] transition-colors duration-200",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
                 )}
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                <span className="relative z-10">LOGIN/CONTRIBUTE</span>
-                <div className="absolute top-0 bottom-0 w-[150%] left-[-150%] bg-gradient-to-r from-transparent via-white to-transparent opacity-80 z-0 animate-glare" />
+                <span>Login / Contribute</span>
               </Link>
             </div>
 
@@ -225,11 +222,10 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="relative overflow-hidden flex items-center justify-center w-full px-4 py-3 text-[13px] font-bold bg-[#00fa9a] border-2 border-black text-black uppercase tracking-[0.04em] shadow-[4px_4px_0px_#000000] transition-all duration-150 active:translate-y-[2px] active:translate-x-[2px] active:shadow-[0px_0px_0px_#000000]"
+                  className="flex items-center justify-center w-full px-4 py-3 text-[13px] font-medium text-black border border-[#E5E5E5] rounded-lg hover:bg-[#f9f9f9] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  <span className="relative z-10">LOGIN/CONTRIBUTE</span>
-                  <div className="absolute top-0 bottom-0 w-[150%] left-[-150%] bg-gradient-to-r from-transparent via-white to-transparent opacity-80 z-0 animate-glare" />
+                  <span>Login / Contribute</span>
                 </Link>
               </div>
             </motion.div>

@@ -110,14 +110,22 @@ export default function ParticleField() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
-        entry.isIntersecting ? startLoop() : stopLoop();
+        if (entry.isIntersecting) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
       },
       { threshold: 0 }
     );
     observer.observe(canvas);
     const handleVisibilityChange = () => {
       isTabActiveRef.current = document.visibilityState === "visible";
-      isTabActiveRef.current ? startLoop() : stopLoop();
+      if (isTabActiveRef.current) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 

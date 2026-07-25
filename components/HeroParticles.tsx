@@ -191,14 +191,22 @@ export default function HeroParticles() {
     const io = new IntersectionObserver(
       ([entry]) => {
         isVisible.current = entry.isIntersecting;
-        entry.isIntersecting ? startLoop() : stopLoop();
+        if (entry.isIntersecting) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
       },
       { threshold: 0 }
     );
     io.observe(canvas);
     const onVisibility = () => {
       isTabActive.current = document.visibilityState === "visible";
-      isTabActive.current ? startLoop() : stopLoop();
+      if (isTabActive.current) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
     };
     document.addEventListener("visibilitychange", onVisibility);
     const onMouseMove = (e: MouseEvent) => {

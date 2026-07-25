@@ -43,16 +43,6 @@ const POINTS = [
 ];
 
 export default function Motives() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const raf = requestAnimationFrame(() => {
-        setIsMobile(window.matchMedia("(pointer: coarse)").matches);
-      });
-      return () => cancelAnimationFrame(raf);
-    }
-  }, []);
-
   return (
     <section
       id="why"

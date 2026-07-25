@@ -8,12 +8,14 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import { Clock, Calendar, User, Star, ChevronRight } from "lucide-react";
+import { Clock, Calendar, User, ChevronRight } from "lucide-react";
 import MonoChip from "@/components/MonoChip";
 import SidebarNav from "@/components/SidebarNav";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { formatDate, readingTime } from "@/lib/utils";
+import StarButton from "@/components/StarButton";
+import ScrollToHash from "@/components/ScrollToHash";
 
 interface WikiArticle {
   id: string;
@@ -172,6 +174,7 @@ export default async function WikiArticlePage({ params }: Props) {
   return (
     <>
       <Navbar />
+      <ScrollToHash />
       <div className="min-h-screen pt-20 px-8 pb-16" style={{ backgroundColor: "#ffffff" }}>
         <div className="max-w-[1280px] mx-auto flex gap-0">
 
@@ -232,10 +235,11 @@ export default async function WikiArticlePage({ params }: Props) {
                   <Clock size={14} aria-hidden="true" />
                   <span style={{ fontFamily: "'Inter', sans-serif" }}>{mins} min read</span>
                 </span>
-                <span className="flex items-center gap-1.5 text-sm text-[#666666]" aria-label={`${article.stars} stars`}>
-                  <Star size={14} aria-hidden="true" />
-                  <span style={{ fontFamily: "'Inter', sans-serif" }}>{article.stars.toLocaleString()}</span>
-                </span>
+                <StarButton
+                  articleId={article.id}
+                  articleSlug={article.slug}
+                  initialStars={article.stars}
+                />
               </div>
 
               {/* Tags and Actions */}
