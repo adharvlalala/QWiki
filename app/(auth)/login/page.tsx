@@ -20,7 +20,6 @@ function LoginForm() {
       className="min-h-screen w-full grid md:grid-cols-2"
       style={{ backgroundColor: "#ffffff" }}
     >
-      {/* ── Left: Editorial Typography ──────────────────────────────────── */}
       <div className="flex flex-col justify-between px-12 py-16 border-r border-[#E5E5E5]">
         {/* Brand */}
         <Link
@@ -71,7 +70,6 @@ function LoginForm() {
         </p>
       </div>
 
-      {/* ── Right: Login Form ────────────────────────────────────────────── */}
       <div className="flex flex-col justify-center px-12 py-16">
         <div className="max-w-sm w-full mx-auto">
           {/* Auth error from callback */}
@@ -89,7 +87,6 @@ function LoginForm() {
           )}
 
           {state?.success ? (
-            /* ── Success State ───────────────────────────────────────── */
             <div>
               <p
                 className="text-[11px] uppercase tracking-[0.12em] text-[#666666] mb-4"
@@ -120,7 +117,6 @@ function LoginForm() {
               </button>
             </div>
           ) : (
-            /* ── Login Form ──────────────────────────────────────────── */
             <>
               <p
                 className="text-[11px] uppercase tracking-[0.12em] text-[#666666] mb-8"

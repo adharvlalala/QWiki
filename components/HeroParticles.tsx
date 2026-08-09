@@ -2,27 +2,27 @@
 
 import { useEffect, useRef, useCallback } from "react";
 const PARTICLE_COUNT = 48;
-const CURSOR_ATTRACT_RADIUS = 140; // px — cursor pulls particles gently
-const CONNECT_DIST_IDLE = 110;     // px — passive neighbour connections
-const CONNECT_DIST_CURSOR = 160;   // px — connections from cursor to nearby particles
+const CURSOR_ATTRACT_RADIUS = 140;
+const CONNECT_DIST_IDLE = 110;    
+const CONNECT_DIST_CURSOR = 160;  
 const QUBIT_COLORS = [
-  "126, 34, 206",   // purple-700
-  "168, 85, 247",   // purple-500
-  "139, 92, 246",   // violet-500
+  "126, 34, 206",  
+  "168, 85, 247",  
+  "139, 92, 246",  
 ];
-const LINE_COLOR = "168, 85, 247";  // purple-500
+const LINE_COLOR = "168, 85, 247"; 
 
 interface Particle {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  /** base speed magnitude — used to restore velocity after cursor deflection */
+  
   speed: number;
   radius: number;
   opacity: number;
   colorIdx: number;
-  /** qubit ring phase — advances each frame for a subtle pulsing ring */
+  
   phase: number;
   phaseSpeed: number;
 }

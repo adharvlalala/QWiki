@@ -20,10 +20,9 @@ export default function StarButton({
   const [starsCount, setStarsCount] = useState(initialStars);
   const [isPending, setIsPending] = useState(false);
 
-  // 1. Initial load: Check localStorage and sync with Supabase if logged in
   useEffect(() => {
     const checkDbStatus = async () => {
-      // Check localStorage first for instant visual response
+     
       const localStarred = localStorage.getItem(`qwiki_starred_${articleSlug}`) === "true";
       if (localStarred) {
         setIsStarred(true);
@@ -62,7 +61,6 @@ export default function StarButton({
     checkDbStatus();
   }, [articleId, articleSlug]);
 
-  // 2. Handle click toggle
   const handleToggle = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (isPending) return;
@@ -71,7 +69,6 @@ export default function StarButton({
     const nextStarred = !isStarred;
     const increment = nextStarred ? 1 : -1;
 
-    // Optimistic UI updates
     setIsStarred(nextStarred);
     setStarsCount((prev) => Math.max(0, prev + increment));
     
@@ -81,7 +78,6 @@ export default function StarButton({
       localStorage.removeItem(`qwiki_starred_${articleSlug}`);
     }
 
-    // Database updates (if Supabase is configured)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     if (supabaseUrl && supabaseUrl !== "your-supabase-url") {
       try {
@@ -100,7 +96,7 @@ export default function StarButton({
         }
       } catch (err) {
         console.error("Failed to sync star status with database:", err);
-        // Revert optimistic updates on error
+       
         setIsStarred(isStarred);
         setStarsCount(starsCount);
         if (isStarred) {

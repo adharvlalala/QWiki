@@ -178,12 +178,10 @@ export default async function WikiArticlePage({ params }: Props) {
       <div className="min-h-screen pt-20 px-8 pb-16" style={{ backgroundColor: "#ffffff" }}>
         <div className="max-w-[1280px] mx-auto flex gap-0">
 
-          {/* ── Left Sidebar ─────────────────────────────────────────── */}
           <div className="hidden lg:block sticky top-24 h-[calc(100vh-6rem)] w-60 shrink-0">
             <SidebarNav activeSlug={slug} />
           </div>
 
-          {/* ── Main Article ─────────────────────────────────────────── */}
           <main
             id="article-content"
             className="flex-1 min-w-0 px-8"
@@ -357,7 +355,6 @@ export default async function WikiArticlePage({ params }: Props) {
             </article>
           </main>
 
-          {/* ── Right ToC ─────────────────────────────────────────────── */}
           {headings.length > 0 && (
             <aside
               aria-label="Table of contents"

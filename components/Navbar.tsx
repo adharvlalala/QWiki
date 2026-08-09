@@ -17,6 +17,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [isDarkSection, setIsDarkSection] = useState(false);
+
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) setMobileOpen(false);
@@ -25,17 +27,41 @@ export default function Navbar() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const spotlightEl = document.getElementById("home-event-spotlight");
+      if (spotlightEl) {
+        const rect = spotlightEl.getBoundingClientRect();
+        const navHeight = 72;
+
+        const isOverSpotlight = rect.top <= navHeight && rect.bottom >= navHeight;
+        setIsDarkSection(isOverSpotlight);
+      } else {
+        setIsDarkSection(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+   
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      {/* ── Desktop / Tablet Navbar ─────────────────────────────────────── */}
       <motion.header
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         className={cn(
-          "fixed top-0 left-0 right-0 z-50",
-          "bg-white border-b border-[#E5E5E5]",
-          "transition-all duration-300",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+          isDarkSection
+            ? "bg-[#0c0a18] border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
+            : "bg-white border-b border-[#E5E5E5]",
         )}
         role="banner"
       >
@@ -43,7 +69,6 @@ export default function Navbar() {
           className="relative grid grid-cols-3 items-center px-8 py-4 max-w-[1280px] mx-auto"
           aria-label="Main navigation"
         >
-          {/* ── LEFT: Nav Links ───────────────────────────────── */}
           <div className="flex items-center gap-1">
             <div className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
@@ -51,9 +76,10 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "relative px-3 py-1.5 text-[13px] font-medium",
-                    "text-[#5e5e5e] hover:text-[#000000]",
-                    "transition-colors duration-200",
+                    "relative px-3 py-1.5 text-[13px] font-medium transition-colors duration-300",
+                    isDarkSection
+                      ? "text-white/70 hover:text-[#c084fc]"
+                      : "text-[#5e5e5e] hover:text-[#000000]",
                     "focus-visible:outline-none focus-visible:underline",
                   )}
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -64,7 +90,6 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* ── CENTER: Brand Logo (absolutely positioned for true center) ── */}
           <div className="flex justify-center">
             <Link
               href="/"
@@ -72,7 +97,10 @@ export default function Navbar() {
               aria-label="QWiki — Home"
             >
               <span
-                className="font-bold text-[15px] text-black tracking-[-0.01em] uppercase"
+                className={cn(
+                  "font-bold text-[15px] tracking-[-0.01em] uppercase transition-all duration-500",
+                  isDarkSection ? "text-white drop-shadow-[0_0_10px_rgba(168,85,247,0.4)]" : "text-black"
+                )}
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 BEYOND CLASSICAL
@@ -80,16 +108,16 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* ── RIGHT: Login / Contribute + Search ──────────────────────────────── */}
           <div className="flex items-center justify-end gap-1">
             <div className="hidden md:flex items-center gap-1">
               <Link
                 href="/login"
                 id="navbar-login"
                 className={cn(
-                  "flex items-center justify-center text-[13px] font-medium text-black",
-                  "px-4 py-1.5 border border-[#E5E5E5] rounded-full",
-                  "hover:bg-[#f9f9f9] hover:border-[#D1D1D1] transition-colors duration-200",
+                  "flex items-center justify-center text-[13px] font-medium px-4 py-1.5 rounded-full transition-all duration-300",
+                  isDarkSection
+                    ? "text-white border border-white/20 hover:bg-[#c084fc]/15 hover:border-[#c084fc] hover:text-[#c084fc] hover:shadow-[0_0_15px_rgba(192,132,252,0.3)]"
+                    : "text-black border border-[#E5E5E5] hover:bg-[#f9f9f9] hover:border-[#D1D1D1]",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
                 )}
                 style={{ fontFamily: "'Inter', sans-serif" }}
@@ -98,7 +126,6 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Search bar */}
             <div className="relative hidden sm:flex items-center ml-2">
               <label htmlFor="navbar-search" className="sr-only">
                 Search wiki articles
@@ -110,7 +137,10 @@ export default function Navbar() {
               >
                 <Search
                   size={13}
-                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#666666]"
+                  className={cn(
+                    "absolute left-2.5 top-1/2 -translate-y-1/2 transition-colors duration-300",
+                    isDarkSection ? "text-white/50" : "text-[#666666]"
+                  )}
                   aria-hidden="true"
                 />
                 <input
@@ -123,29 +153,28 @@ export default function Navbar() {
                   onBlur={() => setSearchFocused(false)}
                   aria-label="Search wiki articles"
                   className={cn(
-                    "w-full pl-7 pr-3 py-1.5 text-[12px]",
-                    "bg-[#f9f9f9] text-[#1b1b1b] placeholder:text-[#999999]",
-                    "border border-[#E5E5E5]",
-                    "transition-all duration-300",
-                    "focus:outline-none focus:bg-white",
-                    "focus:border-[#000000]",
+                    "w-full pl-7 pr-3 py-1.5 text-[12px] transition-all duration-300",
+                    isDarkSection
+                      ? "bg-white/10 text-white placeholder:text-white/40 border border-white/15 focus:bg-white/15 focus:border-[#a855f7]"
+                      : "bg-[#f9f9f9] text-[#1b1b1b] placeholder:text-[#999999] border border-[#E5E5E5] focus:bg-white focus:border-[#000000]",
+                    "focus:outline-none"
                   )}
                   style={{ fontFamily: "'Inter', sans-serif", borderRadius: 0 }}
                 />
               </motion.div>
             </div>
 
-            {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
               className={cn(
-                "md:hidden p-2 text-[#1b1b1b] ml-2",
-                "hover:bg-[#f9f9f9]",
-                "focus-visible:outline-none focus-visible:underline",
-                "transition-colors"
+                "md:hidden p-2 ml-2 transition-colors duration-300",
+                isDarkSection
+                  ? "text-white hover:bg-white/10"
+                  : "text-[#1b1b1b] hover:bg-[#f9f9f9]",
+                "focus-visible:outline-none focus-visible:underline"
               )}
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -154,7 +183,6 @@ export default function Navbar() {
         </nav>
       </motion.header>
 
-      {/* ── Mobile Full-Screen Overlay ──────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -166,7 +194,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-black/20 md:hidden"
+            className="fixed inset-0 z-40 bg-black/40 md:hidden backdrop-blur-sm"
             onClick={() => setMobileOpen(false)}
           >
             <motion.div
@@ -174,27 +202,39 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="absolute right-0 top-0 bottom-0 w-72 bg-white border-l border-[#E5E5E5] flex flex-col pt-24 px-6 pb-8"
+              className={cn(
+                "absolute right-0 top-0 bottom-0 w-72 border-l flex flex-col pt-24 px-6 pb-8 transition-colors duration-500",
+                isDarkSection
+                  ? "bg-[#0c0a18] border-white/10 text-white"
+                  : "bg-white border-[#E5E5E5] text-[#1b1b1b]"
+              )}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Mobile search */}
+              
               <div className="relative mb-6">
                 <label htmlFor="mobile-search" className="sr-only">Search wiki articles</label>
                 <Search
                   size={13}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]"
+                  className={cn(
+                    "absolute left-3 top-1/2 -translate-y-1/2",
+                    isDarkSection ? "text-white/50" : "text-[#666666]"
+                  )}
                   aria-hidden="true"
                 />
                 <input
                   id="mobile-search"
                   type="search"
                   placeholder="Search…"
-                  className="w-full pl-7 pr-3 py-2 text-[13px] bg-[#f9f9f9] border border-[#E5E5E5] focus:border-[#000000] focus:outline-none"
+                  className={cn(
+                    "w-full pl-7 pr-3 py-2 text-[13px] border focus:outline-none transition-all",
+                    isDarkSection
+                      ? "bg-white/10 text-white placeholder:text-white/40 border-white/15 focus:border-[#a855f7]"
+                      : "bg-[#f9f9f9] text-[#1b1b1b] border-[#E5E5E5] focus:border-[#000000]"
+                  )}
                   style={{ fontFamily: "'Inter', sans-serif", borderRadius: 0 }}
                 />
               </div>
 
-              {/* Nav links */}
               <nav aria-label="Mobile navigation">
                 <ul className="space-y-0">
                   {NAV_LINKS.map((link, i) => (
@@ -207,11 +247,16 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
-                        className="flex items-center justify-between px-4 py-3 text-[#1b1b1b] font-medium border-b border-[#E5E5E5] hover:bg-[#f9f9f9] transition-colors"
+                        className={cn(
+                          "flex items-center justify-between px-4 py-3 font-medium border-b transition-colors",
+                          isDarkSection
+                            ? "text-white/80 border-white/10 hover:bg-white/5 hover:text-[#c084fc]"
+                            : "text-[#1b1b1b] border-[#E5E5E5] hover:bg-[#f9f9f9]"
+                        )}
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
                         {link.label}
-                        <ChevronRight size={16} className="text-[#666666]" aria-hidden="true" />
+                        <ChevronRight size={16} className={isDarkSection ? "text-white/40" : "text-[#666666]"} aria-hidden="true" />
                       </Link>
                     </motion.li>
                   ))}
@@ -222,7 +267,12 @@ export default function Navbar() {
                 <Link
                   href="/login"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-center w-full px-4 py-3 text-[13px] font-medium text-black border border-[#E5E5E5] rounded-lg hover:bg-[#f9f9f9] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20"
+                  className={cn(
+                    "flex items-center justify-center w-full px-4 py-3 text-[13px] font-medium border rounded-lg transition-all duration-300 focus-visible:outline-none",
+                    isDarkSection
+                      ? "text-white border-white/20 hover:bg-[#c084fc]/15 hover:border-[#c084fc] hover:text-[#c084fc]"
+                      : "text-black border-[#E5E5E5] hover:bg-[#f9f9f9]"
+                  )}
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   <span>Login / Contribute</span>

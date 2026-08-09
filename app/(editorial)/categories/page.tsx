@@ -131,12 +131,10 @@ export default function CategoriesPage() {
           </div>
         </section>
 
-        {/* ── Hairline Divider ────────────────────────────────────────── */}
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="h-[1px] w-full" style={{ backgroundColor: "#E5E5E5" }} />
         </div>
 
-        {/* ── FOOTER ──────────────────────────────────────────────── */}
         <footer
           aria-label="Site footer"
           className="relative px-8 py-[120px] md:py-[160px]"

@@ -110,7 +110,7 @@ export default function CategoryArticlesClient({
 
   return (
     <>
-      {/* Articles Grid */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {articles.map((article) => (
           <Link
@@ -161,7 +161,6 @@ export default function CategoryArticlesClient({
         ))}
       </div>
 
-      {/* Load More Button */}
       {hasMore && (
         <div className="flex justify-center mt-14">
           <button

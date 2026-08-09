@@ -114,7 +114,6 @@ function MarkdownEditor({
 
   return (
     <div className="border border-[#E5E5E5] flex flex-col" style={{ minHeight: 480 }}>
-      {/* ── Toolbar ───────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between border-b border-[#E5E5E5] px-4 py-2 bg-[#fafafa]">
         {/* Format buttons */}
         <div className="flex items-center gap-1 flex-wrap">
@@ -156,7 +155,6 @@ function MarkdownEditor({
         </div>
       </div>
 
-      {/* ── Editor / Preview ──────────────────────────────────────────── */}
       {tab === "write" ? (
         <textarea
           id="md-editor"
@@ -200,7 +198,6 @@ function MarkdownEditor({
         </div>
       )}
 
-      {/* ── Word count footer ─────────────────────────────────────────── */}
       <div
         className="flex items-center justify-end gap-4 px-4 py-2 border-t border-[#E5E5E5] bg-[#fafafa]"
         aria-live="polite"
@@ -338,7 +335,6 @@ export default function ContributePage() {
 
       <main id="main-content" style={{ backgroundColor: "#ffffff" }}>
 
-        {/* ── Hero header ─────────────────────────────────────────────── */}
         <section
           aria-labelledby="contribute-heading"
           className="border-b border-[#E5E5E5] pt-28 pb-16 px-8"
@@ -436,11 +432,9 @@ export default function ContributePage() {
           </div>
         </section>
 
-        {/* ── Form section ────────────────────────────────────────────── */}
         <section className="px-8 py-16">
           <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-            {/* ── Sidebar guide ──────────────────────────────────────── */}
             <aside className="lg:col-span-3 order-2 lg:order-1">
               <div className="sticky top-28 space-y-8">
 
@@ -533,11 +527,9 @@ export default function ContributePage() {
               </div>
             </aside>
 
-            {/* ── Main form ──────────────────────────────────────────── */}
             <div className="lg:col-span-9 order-1 lg:order-2">
               <form onSubmit={handleSubmit} noValidate className="space-y-8">
 
-                {/* ── Contribution type ─────────────────────────────── */}
                 <fieldset>
                   <legend
                     className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#999999] mb-3"
@@ -614,7 +606,6 @@ export default function ContributePage() {
                   )}
                 </AnimatePresence>
 
-                {/* ── Title & slug ───────────────────────────────────── */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField label="Article title" required htmlFor="art-title">
                     <input
@@ -654,7 +645,6 @@ export default function ContributePage() {
                   </FormField>
                 </div>
 
-                {/* ── Category & Tags ────────────────────────────────── */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <FormField label="Category" required htmlFor="art-category">
                     <div className="relative">
@@ -701,12 +691,10 @@ export default function ContributePage() {
                   </FormField>
                 </div>
 
-                {/* ── Markdown editor ────────────────────────────────── */}
                 <FormField label="Article content" required htmlFor="md-editor">
                   <MarkdownEditor value={content} onChange={setContent} />
                 </FormField>
 
-                {/* ── Author info ────────────────────────────────────── */}
                 <div className="border-t border-[#E5E5E5] pt-8">
                   <h2
                     className="text-[11px] font-medium uppercase tracking-[0.08em] text-[#999999] mb-6"
@@ -752,7 +740,6 @@ export default function ContributePage() {
                   </div>
                 </div>
 
-                {/* ── Error banner ───────────────────────────────────── */}
                 <AnimatePresence>
                   {(status === "error" || errorMsg) && (
                     <motion.div
@@ -773,7 +760,6 @@ export default function ContributePage() {
                   )}
                 </AnimatePresence>
 
-                {/* ── Submit ─────────────────────────────────────────── */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 border-t border-[#E5E5E5] pt-8">
                   <motion.button
                     type="submit"
@@ -817,12 +803,10 @@ export default function ContributePage() {
           </div>
         </section>
 
-        {/* ── Divider ───────────────────────────────────────────────────── */}
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="h-[1px] w-full" style={{ backgroundColor: "#E5E5E5" }} />
         </div>
 
-        {/* ── Footer ───────────────────────────────────────────────────── */}
         <footer
           aria-label="Contribute page footer"
           className="px-8 py-[80px]"

@@ -90,7 +90,7 @@ export default function SearchBar({
 
   return (
     <div className={cn("relative w-full", className)}>
-      {/* Input wrapper */}
+      
       <div
         className={cn(
           "relative flex items-center transition-all duration-300",
@@ -154,7 +154,6 @@ export default function SearchBar({
         )}
       </div>
 
-      {/* Results dropdown */}
       <AnimatePresence>
         {focused && results.length > 0 && (
           <motion.ul

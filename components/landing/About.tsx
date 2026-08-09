@@ -91,7 +91,7 @@ export default function About() {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.4 }}
               className="text-[11px] font-black uppercase tracking-[0.25em] mb-3"
               style={{ color: "#FFFFFF", fontFamily: "var(--font-display)" }}
@@ -104,7 +104,7 @@ export default function About() {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.4, delay: 0.05 }}
               className="leading-[1.0] tracking-[-0.03em] mb-8"
               style={{
@@ -122,7 +122,7 @@ export default function About() {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className="mb-14 max-w-2xl space-y-4"
               style={{ borderLeft: "1px solid #333333", paddingLeft: "1.25rem" }}
@@ -167,7 +167,7 @@ export default function About() {
               x: [20, -5, 5, -2, 2, 0],
               y: [0, 5, -5, 2, -2, 0]
             }}
-            viewport={{ once: true, margin: "-50px" }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ duration: 0.7, ease: "easeOut", times: [0, 0.15, 0.3, 0.5, 0.7, 1] }}
           >
             <img
@@ -183,7 +183,7 @@ export default function About() {
           variants={statContainerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
         >
           {GOALS.map((goal, idx) => (

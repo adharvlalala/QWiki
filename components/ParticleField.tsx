@@ -13,8 +13,8 @@ interface Particle {
 
 const PARTICLE_COUNT = 60;
 const CONNECTION_DISTANCE = 120;
-const PARTICLE_COLOR = "126, 34, 206";   // purple-700
-const LINE_COLOR = "168, 85, 247";       // purple-500
+const PARTICLE_COLOR = "126, 34, 206";  
+const LINE_COLOR = "168, 85, 247";      
 
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

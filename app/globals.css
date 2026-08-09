@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap");
 @import "tailwindcss";
 
-/* ── Aetheric Flux Design Tokens ─────────────────────────────────────── */
 @theme {
   /* Colours */
   --color-primary: #7e22ce;
@@ -72,7 +71,6 @@
   --animate-marquee-reverse: marquee-reverse 35s linear infinite;
 }
 
-/* ── Keyframes ───────────────────────────────────────────────────────── */
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 12px 0 rgba(168, 85, 247, 0.3); }
   50%       { box-shadow: 0 0 32px 6px rgba(168, 85, 247, 0.6); }
@@ -123,7 +121,6 @@
   100% { transform: translateX(0%); }
 }
 
-/* ── Base Resets ─────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
@@ -147,7 +144,6 @@ body {
   color: var(--color-on-surface);
 }
 
-/* ── Utility Classes ─────────────────────────────────────────────────── */
 
 /* Glassmorphism surface */
 .glass {
@@ -278,7 +274,6 @@ body {
   animation-play-state: paused;
 }
 
-/* ── Reduced Motion ───────────────────────────────────────────────────── */
 /* Respects user's OS-level "reduce motion" preference */
 @media (prefers-reduced-motion: reduce) {
   *,

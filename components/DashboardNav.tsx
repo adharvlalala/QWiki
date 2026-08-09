@@ -29,7 +29,7 @@ export default function DashboardNav({ userEmail, userRole }: DashboardNavProps)
       className="w-[220px] shrink-0 min-h-screen flex flex-col border-r border-[#E5E5E5]"
       style={{ backgroundColor: "#ffffff" }}
     >
-      {/* Brand */}
+      
       <div className="px-6 py-6 border-b border-[#E5E5E5]">
         <Link
           href="/"
@@ -40,7 +40,6 @@ export default function DashboardNav({ userEmail, userRole }: DashboardNavProps)
         </Link>
       </div>
 
-      {/* User info */}
       <div className="px-6 py-5 border-b border-[#E5E5E5]">
         <p
           className="text-[11px] text-[#999999] uppercase tracking-[0.08em] mb-1"
@@ -62,9 +61,8 @@ export default function DashboardNav({ userEmail, userRole }: DashboardNavProps)
         </span>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 py-4" aria-label="Dashboard navigation">
-        {/* Contributor links — always visible */}
+        
         <div className="mb-4">
           <p
             className="px-6 py-2 text-[10px] uppercase tracking-[0.1em] text-[#AAAAAA]"
@@ -90,7 +88,6 @@ export default function DashboardNav({ userEmail, userRole }: DashboardNavProps)
           ))}
         </div>
 
-        {/* Editor links — only for editors */}
         {isEditor && (
           <div>
             <p
@@ -119,7 +116,6 @@ export default function DashboardNav({ userEmail, userRole }: DashboardNavProps)
         )}
       </nav>
 
-      {/* Sign out */}
       <div className="border-t border-[#E5E5E5]">
         <form action={signOut}>
           <button

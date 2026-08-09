@@ -28,6 +28,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/quantum-tech-matrix",
+        destination: "https://quantum-tech-matrix.mulearn.org/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

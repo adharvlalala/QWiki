@@ -9,7 +9,7 @@ interface FloatingCardProps {
   className?: string;
   delay?: number;
   hover?: boolean;
-  /** Pass aria-label for non-interactive decorative cards */
+  
   "aria-label"?: string;
 }
 
@@ -48,7 +48,7 @@ export default function FloatingCard({
         className
       )}
     >
-      {/* Subtle top-edge energy glow */}
+      
       <div
         aria-hidden="true"
         className={cn(

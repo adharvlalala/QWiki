@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface QuantumProgressBarProps {
   label: string;
-  value: number;      // 0–100
+  value: number;     
   displayValue?: string;
   color?: "cyan" | "blue" | "purple";
   className?: string;
@@ -59,7 +59,6 @@ export default function QuantumProgressBar({
         </span>
       </div>
 
-      {/* Track */}
       <div
         role="progressbar"
         aria-label={label}
@@ -68,7 +67,7 @@ export default function QuantumProgressBar({
         aria-valuemax={100}
         className="relative h-[2px] w-full rounded-full bg-[#e1e3e4] overflow-visible"
       >
-        {/* Fill */}
+        
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: animated ? `${value}%` : 0 }}
@@ -82,7 +81,7 @@ export default function QuantumProgressBar({
             boxShadow: `0 0 8px 1px ${glowColors[color]}`,
           }}
         >
-          {/* Shimmer sweep */}
+          
           <motion.span
             aria-hidden="true"
             className="absolute inset-0 rounded-full"
@@ -95,7 +94,6 @@ export default function QuantumProgressBar({
             transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
           />
 
-          {/* Trailing glow dot */}
           <span
             aria-hidden="true"
             className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"

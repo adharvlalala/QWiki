@@ -64,7 +64,7 @@ export default function QtmNavbar() {
         >
           {/* LEFT: Brand Wordmark */}
           <div className="flex items-center">
-            <Link href="/quantum-tech-matrix" className="focus-visible:outline-none" aria-label="Quantum Tech Matrix">
+            <Link href="https://quantum-tech-matrix.mulearn.org/" className="focus-visible:outline-none" aria-label="Quantum Tech Matrix">
               <span
                 className="font-black text-[13px] md:text-[14px] text-white tracking-[0.18em] uppercase"
                 style={{ fontFamily: "var(--font-display)" }}

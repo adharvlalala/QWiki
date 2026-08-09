@@ -311,7 +311,6 @@ export default function SubmitPage() {
       className="flex flex-col min-h-screen"
       style={{ backgroundColor: "#ffffff" }}
     >
-      {/* ── Sticky Header ─────────────────────────────────────────────── */}
       <header className="sticky top-0 z-20 border-b border-[#E5E5E5] bg-white">
         <div className="px-8 py-4 flex items-center justify-between gap-6">
           <div className="flex items-center gap-6">
@@ -434,7 +433,6 @@ export default function SubmitPage() {
         </div>
       </header>
 
-      {/* ── Hidden form for actual submission data ────────────────────── */}
       <form id="submit-form" action={action} className="hidden">
         <input type="hidden" name="title" value={title} />
         <input type="hidden" name="content" value={content} />
@@ -442,7 +440,6 @@ export default function SubmitPage() {
         <input type="hidden" name="tags" defaultValue="" />
       </form>
 
-      {/* ── Split Pane Editor ─────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
         {/* Write pane */}
         <div
@@ -512,7 +509,6 @@ export default function SubmitPage() {
         </div>
       </div>
 
-      {/* ── Action Bar ────────────────────────────────────────────────── */}
       <footer
         className="sticky bottom-0 z-20 border-t border-[#E5E5E5] bg-white"
       >

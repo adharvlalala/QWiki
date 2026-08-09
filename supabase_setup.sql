@@ -131,7 +131,6 @@ $$;
 
 insert into public.wiki_articles (slug, title, excerpt, category, author, tags, stars, reading_time, content)
 values
--- ── CATEGORY: Fundamentals ──────────────────────────────────────────────────
 (
   'quantum-mechanics',
   'Quantum Mechanics: The Physics of the Microscopic World',
@@ -253,7 +252,6 @@ John Bell (1964) devised a mathematical inequality (Bell inequalities) that, if 
 - **Quantum Computing:** Entanglement as a computational resource for quantum speedup.'
 ),
 
--- ── CATEGORY: Quantum Computing ─────────────────────────────────────────────
 (
   'qubits',
   'Qubits: The Quantum Bit Explained',
@@ -380,7 +378,6 @@ Quantum Error Correction (QEC) works by encoding one **logical qubit** into an e
 - **Surface Codes:** Modern topological codes that arrange physical qubits on a 2D grid. They feature a high fault-tolerance threshold (nearly 1% error rate per gate), making them the primary architecture of modern industrial efforts.'
 ),
 
--- ── CATEGORY: Algorithms ───────────────────────────────────────────────────
 (
   'shors-algorithm',
   'Shor''s Algorithm: Breaking Classical Cryptography',
@@ -470,7 +467,6 @@ VQE delegates work between quantum and classical processors:
 3. This loop repeats until convergence is reached.'
 ),
 
--- ── CATEGORY: Hardware ──────────────────────────────────────────────────────
 (
   'superconducting-qubits',
   'Superconducting Qubits: The Silicon of Quantum Tech',
@@ -546,7 +542,6 @@ To isolate the ions, researchers use a **Paul Trap** (radiofrequency quadrupole 
 Qubits are manipulated by shining focused laser beams on specific ions. Two-qubit gates are mediated by the **collective vibrational motion** (phonons) of the ion chain, driven by laser forces.'
 ),
 
--- ── CATEGORY: Research ──────────────────────────────────────────────────────
 (
   'quantum-advantage',
   'Quantum Advantage: Surpassing Classical Computers',

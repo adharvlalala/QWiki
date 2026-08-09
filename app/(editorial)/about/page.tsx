@@ -3,9 +3,6 @@
 import Navbar from "@/components/Navbar";
 import { Cpu, Atom } from "lucide-react";
 
-
-
-// Commitments
 const COMMITMENTS = [
   {
     title: "Show Up Consistently",
@@ -21,9 +18,8 @@ const COMMITMENTS = [
   }
 ];
 
-// Roster Data
 const ROSTER_MENTORS = [
-  { name: "Manoj Joseph", role: "CBO, Board Director", affiliation: "SuperQ Quantum Computing (CSE: QBTQ), Canada. Co Founder, Ebiz Technologies, UAE." },
+  { name: "Manoj Joseph", role: "Mentor", affiliation: "CBO, Board Director, SuperQ Quantum Computing (CSE: QBTQ), Canada. Co Founder, Ebiz Technologies, UAE." },
 ];
 
 const ROSTER_MEMBERS = [
@@ -45,60 +41,57 @@ export default function AboutPage() {
     <>
       <Navbar />
 
-      <main 
-        id="main-content" 
+      <main
+        id="main-content"
         className="relative z-10 pt-20 bg-white"
         style={{ backgroundColor: "#ffffff" }}
       >
-        {/* 1. Header Section */}
-        <header className="px-8 pt-20 pb-16 text-center max-w-4xl mx-auto">
-          <span 
+        <header className="px-4 sm:px-8 pt-12 sm:pt-20 pb-10 sm:pb-16 text-center max-w-4xl mx-auto">
+          <span
             className="text-[#7e22ce] text-xs uppercase tracking-[0.2em] font-semibold"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             QTM Interest Group
           </span>
-          <h1 
-            className="text-4xl md:text-5xl font-bold tracking-tight text-black mt-3 leading-tight uppercase font-display"
+          <h1
+            className="text-3xl md:text-5xl font-bold tracking-tight text-black mt-3 leading-tight uppercase font-display"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             About the Initiative
           </h1>
-          <p 
-            className="text-[#555555] text-lg mt-6 leading-relaxed max-w-2xl mx-auto"
+          <p
+            className="text-[#555555] text-base sm:text-lg mt-6 leading-relaxed max-w-2xl mx-auto"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             We are a coordinated community of students, researchers, and developers in Kerala. We build practical skills and active pipelines aligned with India&apos;s National Quantum Mission.
           </p>
 
-          {/* Core Stats Row */}
-          <div className="grid grid-cols-3 gap-6 mt-12 max-w-2xl mx-auto border-y border-[#E5E5E5] py-8">
+          <div className="grid grid-cols-3 gap-4 sm:gap-6 mt-10 sm:mt-12 max-w-2xl mx-auto border-y border-[#E5E5E5] py-6 sm:py-8">
             <div>
-              <div className="text-3xl font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>35+</div>
+              <div className="text-2xl sm:text-3xl font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>35+</div>
               <div className="text-xs text-[#666666] uppercase tracking-wider mt-1 font-medium font-body">Active Members</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>2</div>
+              <div className="text-2xl sm:text-3xl font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>2</div>
               <div className="text-xs text-[#666666] uppercase tracking-wider mt-1 font-medium font-body">Core Verticals</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>11</div>
+              <div className="text-2xl sm:text-3xl font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>11</div>
               <div className="text-xs text-[#666666] uppercase tracking-wider mt-1 font-medium font-body">Core Team</div>
             </div>
           </div>
         </header>
 
-        {/* 2. Why We Exist Section */}
-        <section className="px-8 py-16 bg-[#FAFAFA] border-y border-[#E5E5E5]">
-          <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+        <section className="px-4 sm:px-8 py-12 sm:py-16 bg-[#FAFAFA] border-y border-[#E5E5E5]">
+          <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
             <div>
-              <h3 
+              <h3
                 className="text-lg font-bold text-black uppercase tracking-tight mb-3 font-display"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 The Opportunity
               </h3>
-              <p 
+              <p
                 className="text-[14px] text-[#555555] leading-relaxed font-body"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
@@ -106,13 +99,13 @@ export default function AboutPage() {
               </p>
             </div>
             <div>
-              <h3 
+              <h3
                 className="text-lg font-bold text-black uppercase tracking-tight mb-3 font-display"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 The Kerala Gap
               </h3>
-              <p 
+              <p
                 className="text-[14px] text-[#555555] leading-relaxed font-body"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
@@ -122,17 +115,15 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 3. Core Focus Areas Section */}
-        <section className="px-8 py-20 max-w-[1280px] mx-auto">
-          <h2 
-            className="text-2xl font-bold text-black text-center uppercase tracking-tight font-display mb-12"
+        <section className="px-4 sm:px-8 py-14 sm:py-20 max-w-[1280px] mx-auto">
+          <h2
+            className="text-2xl font-bold text-black text-center uppercase tracking-tight font-display mb-10 sm:mb-12"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
             What We Do
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* QC Card */}
-            <div className="p-8 border border-[#E5E5E5] hover:border-[#7e22ce] transition-all bg-white rounded-lg flex flex-col justify-between hover:shadow-xs">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <div className="p-5 sm:p-8 border border-[#E5E5E5] hover:border-[#7e22ce] transition-all bg-white rounded-lg flex flex-col justify-between hover:shadow-xs">
               <div>
                 <div className="w-10 h-10 rounded-full bg-[#FAF5FF] flex items-center justify-center mb-6">
                   <Cpu className="w-5 h-5 text-[#7e22ce]" />
@@ -151,8 +142,8 @@ export default function AboutPage() {
                 <span className="text-[11px] font-bold text-black uppercase tracking-wider block mb-2 font-display">Key Practical Skills</span>
                 <div className="flex flex-wrap gap-1.5">
                   {["Qiskit", "PennyLane", "Variational Algorithms"].map((tech) => (
-                    <span 
-                      key={tech} 
+                    <span
+                      key={tech}
                       className="px-2.5 py-1 bg-[#F5F5F5] border border-[#E5E5E5] text-[12px] text-[#333] rounded"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
@@ -163,8 +154,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* QComm Card */}
-            <div className="p-8 border border-[#E5E5E5] hover:border-[#7e22ce] transition-all bg-white rounded-lg flex flex-col justify-between hover:shadow-xs">
+            <div className="p-5 sm:p-8 border border-[#E5E5E5] hover:border-[#7e22ce] transition-all bg-white rounded-lg flex flex-col justify-between hover:shadow-xs">
               <div>
                 <div className="w-10 h-10 rounded-full bg-[#FAF5FF] flex items-center justify-center mb-6">
                   <Atom className="w-5 h-5 text-[#7e22ce]" />
@@ -183,8 +173,8 @@ export default function AboutPage() {
                 <span className="text-[11px] font-bold text-black uppercase tracking-wider block mb-2 font-display">Key Practical Skills</span>
                 <div className="flex flex-wrap gap-1.5">
                   {["BB84 Protocol", "Entanglement Distribution", "Secure Networks"].map((tech) => (
-                    <span 
-                      key={tech} 
+                    <span
+                      key={tech}
                       className="px-2.5 py-1 bg-[#F5F5F5] border border-[#E5E5E5] text-[12px] text-[#333] rounded"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
@@ -197,10 +187,9 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 4. Commitments Section */}
-        <section className="px-8 py-20 max-w-xl mx-auto">
+        <section className="px-4 sm:px-8 py-14 sm:py-20 max-w-xl mx-auto">
           <div>
-            <h3 
+            <h3
               className="text-xl font-bold text-black font-display mb-8 uppercase tracking-tight text-center"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
@@ -224,20 +213,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 6. The Collective Roster Section */}
-        <section className="px-8 py-20 bg-[#FAFAFA] border-t border-[#E5E5E5]">
+        <section className="px-4 sm:px-8 py-14 sm:py-20 bg-[#FAFAFA] border-t border-[#E5E5E5]">
           <div className="max-w-[1280px] mx-auto">
-            <h2 
-              className="text-2xl font-bold text-black text-center uppercase tracking-tight font-display mb-12"
+            <h2
+              className="text-2xl font-bold text-black text-center uppercase tracking-tight font-display mb-10 sm:mb-12"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
               The Collective
             </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-              {/* Mentors */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
               <div className="lg:col-span-4">
                 <h3 className="text-xs text-[#7e22ce] uppercase tracking-wider mb-4 font-bold border-b border-[#E5E5E5] pb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  Advisor
+                  Advisors
                 </h3>
                 <div className="p-4 bg-white border border-[#E5E5E5] rounded-lg">
                   <div className="font-bold text-black text-base font-display" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -252,12 +239,11 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* Members */}
               <div className="lg:col-span-8">
                 <h3 className="text-xs text-[#7e22ce] uppercase tracking-wider mb-4 font-bold border-b border-[#E5E5E5] pb-2" style={{ fontFamily: "'Inter', sans-serif" }}>
                   Core Team
                 </h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                   {ROSTER_MEMBERS.map((p, i) => (
                     <div key={i} className="p-3 bg-white border border-[#E5E5E5] rounded-lg flex flex-col justify-between">
                       <span className="text-xs font-bold text-black uppercase tracking-tight font-display" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
@@ -274,9 +260,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 7. Motto Callout Section */}
-        <section className="px-8 py-16 bg-neutral-950 text-white text-center">
-          <blockquote 
+        <section className="px-4 sm:px-8 py-12 sm:py-16 bg-neutral-950 text-white text-center">
+          <blockquote
             className="text-lg md:text-xl italic font-display text-white tracking-wide max-w-3xl mx-auto"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >

@@ -35,7 +35,6 @@ export default function EditorialReviewClient({ submission }: EditorialReviewCli
       className="flex flex-col h-screen overflow-hidden"
       style={{ backgroundColor: "#ffffff", color: "#000000" }}
     >
-      {/* ── Review Header ────────────────────────────────────────────── */}
       <header className="sticky top-0 z-20 border-b border-[#E5E5E5] bg-white">
         <div className="px-8 py-4 flex items-center justify-between gap-6">
           <div className="flex items-center gap-6">
@@ -106,7 +105,6 @@ export default function EditorialReviewClient({ submission }: EditorialReviewCli
         </div>
       </header>
 
-      {/* ── Split Pane Layout ─────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
         {/* Markdown Source Pane */}
         <div
@@ -279,7 +277,6 @@ export default function EditorialReviewClient({ submission }: EditorialReviewCli
         </div>
       </div>
 
-      {/* ── Action Bar ────────────────────────────────────────────────── */}
       <ActionBar submissionId={submission.id} />
     </div>
   );

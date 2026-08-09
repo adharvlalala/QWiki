@@ -18,6 +18,7 @@ import {
 import Navbar from "@/components/Navbar";
 import SearchBar from "@/components/SearchBar";
 import HeroParticles from "@/components/HeroParticles";
+import HomeEventSpotlight from "@/components/HomeEventSpotlight";
 
 const CATEGORIES = [
   { label: "Fundamentals", icon: <BookOpen size={20} />, color: "#000000" },
@@ -36,13 +37,11 @@ export default function HomePage() {
       <Navbar />
 
       <main id="main-content" className="relative z-10">
-        {/* ── 1. HERO ────────────────────────────────────────────────── */}
         <section
           aria-labelledby="hero-heading"
           className="relative min-h-screen flex flex-col items-center justify-center px-8 pt-28 pb-20 overflow-hidden"
           style={{ backgroundColor: "#ffffff", position: "relative" }}
         >
-          {/* ── Qubit particle field — hero only ─────────────────────── */}
           <HeroParticles />
           <div className="relative z-10 max-w-[1280px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             <div className="md:col-span-7 flex flex-col items-start">
@@ -51,17 +50,33 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 mb-8"
+                className="flex flex-col gap-1.5 mb-8"
               >
-                <span
-                  className="inline-flex items-center text-xs font-medium px-2 py-0.5 border border-[#E5E5E5] text-[#000000] uppercase tracking-[0.05em]"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  V1.0.0 Alpha
-                </span>
-                <span className="text-xs text-[#666666]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  knowledge base initialized
-                </span>
+                {/* Version badge row */}
+                <div className="inline-flex items-center gap-2">
+                  <span
+                    className="inline-flex items-center text-xs font-medium px-2 py-0.5 border border-[#E5E5E5] text-[#000000] uppercase tracking-[0.05em]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    V1.0.0 Alpha
+                  </span>
+                  <span className="text-xs text-[#666666]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    knowledge base initialized
+                  </span>
+                </div>
+                {/* Quiet event signal — contextual, not a popup */}
+                <div className="inline-flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#7e22ce] flex-shrink-0" />
+                  <span className="text-xs text-[#999]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    QTM concluded ·{" "}
+                    <Link
+                      href="#home-event-spotlight"
+                      className="text-[#7e22ce] hover:underline"
+                    >
+                      see how QWiki was born ↓
+                    </Link>
+                  </span>
+                </div>
               </motion.div>
 
               {/* Headline */}
@@ -153,12 +168,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Hairline Divider ────────────────────────────────────────── */}
+        <HomeEventSpotlight />
+
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="h-[1px] w-full" style={{ backgroundColor: "#E5E5E5" }} />
         </div>
 
-        {/* ── 2. CATEGORIES ──────────────────────────────────────────── */}
         <section
           aria-labelledby="categories-heading"
           className="px-8 py-[160px]"
@@ -221,12 +236,10 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Hairline Divider ────────────────────────────────────────── */}
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="h-[1px] w-full" style={{ backgroundColor: "#E5E5E5" }} />
         </div>
 
-        {/* ── 3. FOOTER ──────────────────────────────────────────────── */}
         <footer
           aria-label="Site footer"
           className="relative px-8 py-[160px]"

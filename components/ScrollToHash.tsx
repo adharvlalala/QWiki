@@ -11,13 +11,12 @@ export default function ScrollToHash() {
       const hash = window.location.hash;
       if (hash) {
         const id = decodeURIComponent(hash.replace("#", ""));
-        
-        // Try scrolling immediately
+
         const element = document.getElementById(id);
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
-          // If the element is not in DOM yet (due to rendering lag), retry after a short delay
+         
           const timer = setTimeout(() => {
             const el = document.getElementById(id);
             if (el) {
@@ -29,10 +28,8 @@ export default function ScrollToHash() {
       }
     };
 
-    // Run scroll check on mount or path change
     handleScroll();
 
-    // Listen for manual hash changes (e.g. clicking ToC links)
     window.addEventListener("hashchange", handleScroll);
     return () => window.removeEventListener("hashchange", handleScroll);
   }, [pathname]);

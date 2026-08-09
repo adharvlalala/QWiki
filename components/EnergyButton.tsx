@@ -73,7 +73,7 @@ const EnergyButton = forwardRef<HTMLButtonElement, EnergyButtonProps>(
         )}
         {...(props as object)}
       >
-        {/* Pulse ring — primary only */}
+        
         {variant === "primary" && !disabled && !loading && (
           <motion.span
             aria-hidden="true"

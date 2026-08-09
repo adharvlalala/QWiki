@@ -186,7 +186,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
 
   return (
     <>
-      {/* ── Annotated trigger ──────────────────────────────────────────── */}
       <span
         ref={triggerRef}
         onMouseEnter={handleMouseEnter}
@@ -199,7 +198,6 @@ export function GlossaryTerm({ id, children }: { id: string; children: React.Rea
         {children}
       </span>
 
-      {/* ── Floating card — rendered into document.body via portal ─────── */}
       {mounted &&
         createPortal(
           <AnimatePresence>

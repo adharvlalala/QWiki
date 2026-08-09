@@ -21,12 +21,12 @@ const colorMap = {
   purple: {
     bg: "rgba(129,39,207,0.08)",
     border: "rgba(129,39,207,0.25)",
-    text: "#6900b3",   // on-secondary-fixed-variant — WCAG AA compliant
+    text: "#6900b3",  
   },
   gray: {
     bg: "rgba(114,119,133,0.08)",
     border: "rgba(114,119,133,0.25)",
-    text: "#424754",   // on-surface-variant — WCAG AA compliant
+    text: "#424754",  
   },
   editorial: {
     bg: "transparent",

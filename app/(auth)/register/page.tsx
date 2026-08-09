@@ -15,7 +15,6 @@ export default function RegisterPage() {
       className="min-h-screen w-full grid md:grid-cols-2"
       style={{ backgroundColor: "#ffffff" }}
     >
-      {/* ── Left: Editorial Typography ──────────────────────────────────── */}
       <div className="flex flex-col justify-between px-12 py-16 border-r border-[#E5E5E5]">
         <Link
           href="/"
@@ -77,7 +76,6 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* ── Right: Register Form ─────────────────────────────────────────── */}
       <div className="flex flex-col justify-center px-12 py-16">
         <div className="max-w-sm w-full mx-auto">
           {state?.success ? (

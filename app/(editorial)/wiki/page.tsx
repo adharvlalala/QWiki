@@ -99,7 +99,6 @@ function WikiSearchBar() {
 
   return (
     <div className="relative w-full max-w-2xl mx-auto">
-      {/* ── Glow rings ─────────────────────────────────────────────────── */}
       <div
         className="absolute inset-0 -z-10 pointer-events-none"
         aria-hidden="true"
@@ -113,7 +112,6 @@ function WikiSearchBar() {
         }}
       />
 
-      {/* ── Input wrapper ───────────────────────────────────────────────── */}
       <motion.div
         animate={focused
           ? { boxShadow: "0 0 0 1px #a855f7, 0 0 32px 8px rgba(168,85,247,0.28), 0 4px 60px rgba(168,85,247,0.15)" }
@@ -169,7 +167,6 @@ function WikiSearchBar() {
         )}
       </motion.div>
 
-      {/* ── Results dropdown ─────────────────────────────────────────────── */}
       <AnimatePresence>
         {isOpen && (
           <motion.ul
@@ -270,7 +267,6 @@ export default function WikiHomePage() {
 
       <main id="main-content" style={{ backgroundColor: "#ffffff" }}>
 
-        {/* ── HERO — glowing search centrepiece ──────────────────────── */}
         <section
           aria-labelledby="wiki-search-heading"
           className="relative min-h-screen flex flex-col items-center justify-center px-8 pt-28 pb-20 overflow-hidden"
@@ -311,7 +307,6 @@ export default function WikiHomePage() {
               <span className="text-[#1b1b1b]">Wiki</span>
             </motion.nav>
 
-            {/* ── Rotating prompt ─────────────────────────────────────── */}
             <div
               className="mb-12 min-h-[120px] flex flex-col items-center justify-end"
               aria-live="polite"
@@ -358,7 +353,6 @@ export default function WikiHomePage() {
               </AnimatePresence>
             </div>
 
-            {/* ── Glowing search bar ──────────────────────────────────── */}
             <motion.div
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -386,7 +380,6 @@ export default function WikiHomePage() {
               to focus · Browse by category below
             </motion.p>
 
-            {/* ── Category chips ──────────────────────────────────────── */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -411,12 +404,10 @@ export default function WikiHomePage() {
           </div>
         </section>
 
-        {/* ── Hairline ──────────────────────────────────────────────────── */}
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="h-[1px] w-full" style={{ backgroundColor: "#E5E5E5" }} />
         </div>
 
-        {/* ── Footer ─────────────────────────────────────────────────────── */}
         <footer
           aria-label="Wiki footer"
           className="px-8 py-[80px]"

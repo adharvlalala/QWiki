@@ -32,7 +32,6 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  // ── Route Protection ───────────────────────────────────────────────────────
 
   // All /dashboard routes require authentication
   if (pathname.startsWith("/dashboard")) {

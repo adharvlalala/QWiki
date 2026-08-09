@@ -63,7 +63,7 @@ export default function Schedule() {
               key={idx}
               initial={{ opacity: 0, x: -10 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.35, delay: idx * 0.05 }}
               className="relative group"
             >

@@ -110,7 +110,7 @@ export default function SidebarNav({ activeSlug }: SidebarNavProps) {
       )}
       aria-label="Wiki navigation sidebar"
     >
-      {/* Collapse toggle */}
+      
       <button
         onClick={() => setCollapsed(!collapsed)}
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -132,7 +132,6 @@ export default function SidebarNav({ activeSlug }: SidebarNavProps) {
         )}
       </button>
 
-      {/* Content */}
       <AnimatePresence>
         {!collapsed && (
           <motion.div
@@ -142,7 +141,7 @@ export default function SidebarNav({ activeSlug }: SidebarNavProps) {
             transition={{ duration: 0.2 }}
             className="flex flex-col h-full py-5 px-3 overflow-y-auto"
           >
-            {/* Header */}
+            
             <div className="flex items-center gap-2 px-2 mb-5">
               <Hash size={14} className="text-[#666666]" aria-hidden="true" />
               <span
@@ -153,7 +152,6 @@ export default function SidebarNav({ activeSlug }: SidebarNavProps) {
               </span>
             </div>
 
-            {/* Sections */}
             <nav aria-label="Article sections">
               <ul className="space-y-1">
                 {NAV_SECTIONS.map((section) => {

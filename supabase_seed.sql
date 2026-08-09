@@ -7,7 +7,6 @@
 insert into public.wiki_articles (slug, title, excerpt, category, author, tags, stars, reading_time, content)
 values
 
--- ── FUNDAMENTALS ─────────────────────────────────────────────────────────────
 (
   'quantum-mechanics',
   'Quantum Mechanics: The Physics of the Microscopic World',
@@ -36,7 +35,6 @@ values
   E'## Introduction\n\nIntroduced by Werner Heisenberg in 1927, the Uncertainty Principle states there is a fundamental limit to the precision with which certain pairs of physical properties of a particle can be known simultaneously.\n\n## Mathematical Formulation\n\nThe most famous pair is position (x) and momentum (p):\n\n  sigma_x * sigma_p >= hbar/2\n\nwhere sigma_x is the standard deviation of position, sigma_p is the standard deviation of momentum, and hbar = h/2pi is the reduced Planck constant.\n\nAnother common conjugate pair is energy (E) and time (t):\n\n  Delta_E * Delta_t >= hbar/2\n\n## Interpretation\n\nThis is **not** about limitations of instruments. It is a fundamental property of wave-like systems. Localizing a wave packet requires mixing multiple frequencies, which increases momentum uncertainty.'
 ),
 
--- ── QUANTUM COMPUTING ────────────────────────────────────────────────────────
 (
   'qubits',
   'Qubits: The Quantum Bit Explained',
@@ -74,7 +72,6 @@ values
   E'## The Challenge of Noise\n\nQubits are extremely sensitive to environmental noise. Interaction with the environment causes **decoherence**, corrupting quantum states and causing errors.\n\n## Constraints Unique to Quantum Systems\n\n1. **No-Cloning Theorem:** An unknown quantum state cannot be copied.\n2. **Measurement Collapse:** Checking a qubit for errors destroys its superposition.\n3. **Two Error Types:** Bit-flip errors (|0> <-> |1>) and phase-flip errors.\n\n## The Solution: Logical Qubits\n\nQEC encodes one **logical qubit** across many **physical qubits** using entanglement. Errors on individual physical qubits can be detected and corrected without measuring the logical qubit directly.\n\n- **Shor Code (1995):** First QEC code — 1 logical qubit encoded into 9 physical qubits.\n- **Surface Codes:** Arrange qubits on a 2D grid with ~1% error threshold, making them the leading architecture for fault-tolerant quantum computers.'
 ),
 
--- ── ALGORITHMS ───────────────────────────────────────────────────────────────
 (
   'shors-algorithm',
   'Shor''s Algorithm: Breaking Classical Cryptography',
@@ -103,7 +100,6 @@ values
   E'## Introduction\n\nThe Variational Quantum Eigensolver (VQE) is a hybrid algorithm for finding the minimum eigenvalue of a Hamiltonian — typically the ground state energy of a molecule. It is designed for NISQ hardware.\n\n## Variational Principle\n\nFor any trial state |psi(theta)>, the expectation value of H is always greater than or equal to the true ground state energy E0:\n\n  <psi(theta)|H|psi(theta)> >= E0\n\nVQE minimizes the left side to approximate E0.\n\n## Hybrid Architecture\n\n1. **Quantum Processor:** Prepares the parameterized ansatz state |psi(theta)> and measures Hamiltonian expectation values.\n2. **Classical Optimizer:** Uses gradient-based or gradient-free methods (COBYLA, Adam) to update theta, minimizing the energy.\n3. This loop repeats until convergence.\n\n## Applications\n\n- Quantum chemistry (molecular ground states)\n- Materials science\n- Drug discovery'
 ),
 
--- ── HARDWARE ─────────────────────────────────────────────────────────────────
 (
   'superconducting-qubits',
   'Superconducting Qubits: The Silicon of Quantum Tech',
@@ -132,7 +128,6 @@ values
   E'## Introduction\n\nTrapped-ion quantum computing uses individual charged atoms (ions) — typically Ytterbium (Yb+) or Calcium (Ca+) — suspended in vacuum by electromagnetic fields. Lasers manipulate their internal electronic states to encode and process quantum information.\n\n## The Paul Trap\n\nIons are confined by a **Paul Trap**, which uses oscillating radiofrequency electric fields to create a stable trapping potential in an ultra-high vacuum chamber. Ions arrange themselves in a linear chain.\n\n## Advantages\n\n1. **Identical Qubits:** Every atom of the same isotope is physically identical by nature.\n2. **High Coherence:** Coherence times of seconds to hours in specialized setups.\n3. **All-to-All Connectivity:** Any two ions in the chain can be directly coupled via shared phonon modes, enabling native all-to-all gate connectivity.\n\n## Two-Qubit Gates\n\nTwo-qubit gates are performed by applying laser forces that drive the collective vibrational motion (phonons) of the ion chain, creating entanglement between target ions.'
 ),
 
--- ── RESEARCH ─────────────────────────────────────────────────────────────────
 (
   'quantum-advantage',
   'Quantum Advantage: Surpassing Classical Computers',
