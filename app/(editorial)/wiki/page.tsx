@@ -269,7 +269,7 @@ export default function WikiHomePage() {
 
         <section
           aria-labelledby="wiki-search-heading"
-          className="relative min-h-screen flex flex-col items-center justify-center px-8 pt-28 pb-20 overflow-hidden"
+          className="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 pb-20 overflow-hidden"
           style={{ backgroundColor: "#ffffff" }}
         >
           {/* Subtle ambient orb — top */}

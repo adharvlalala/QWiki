@@ -175,7 +175,7 @@ export default async function WikiArticlePage({ params }: Props) {
     <>
       <Navbar />
       <ScrollToHash />
-      <div className="min-h-screen pt-20 px-8 pb-16" style={{ backgroundColor: "#ffffff" }}>
+      <div className="min-h-screen pt-20 sm:pt-24 px-4 sm:px-6 lg:px-8 pb-16" style={{ backgroundColor: "#ffffff" }}>
         <div className="max-w-[1280px] mx-auto flex gap-0">
 
           <div className="hidden lg:block sticky top-24 h-[calc(100vh-6rem)] w-60 shrink-0">
@@ -184,52 +184,52 @@ export default async function WikiArticlePage({ params }: Props) {
 
           <main
             id="article-content"
-            className="flex-1 min-w-0 px-8"
+            className="flex-1 min-w-0 px-0 lg:pl-8 lg:pr-6"
             aria-labelledby="article-title"
           >
             {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-[#666666] mb-6 mt-2">
-              <Link href="/" className="hover:text-[#000000] transition-colors focus-visible:outline-none focus-visible:underline">Home</Link>
-              <ChevronRight size={13} aria-hidden="true" />
-              <Link href="/wiki" className="hover:text-[#000000] transition-colors focus-visible:outline-none focus-visible:underline">Wiki</Link>
-              <ChevronRight size={13} aria-hidden="true" />
-              <span className="text-[#1b1b1b]">{article.title}</span>
+            <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-[#666666] mb-5 sm:mb-6 mt-2 overflow-x-auto whitespace-nowrap scrollbar-none py-0.5">
+              <Link href="/" className="hover:text-[#000000] transition-colors focus-visible:outline-none focus-visible:underline shrink-0">Home</Link>
+              <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
+              <Link href="/wiki" className="hover:text-[#000000] transition-colors focus-visible:outline-none focus-visible:underline shrink-0">Wiki</Link>
+              <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
+              <span className="text-[#1b1b1b] truncate max-w-[200px] sm:max-w-none">{article.title}</span>
             </nav>
 
             {/* Article header */}
-            <header className="mb-8">
-              <MonoChip color="editorial" className="mb-4">{article.category}</MonoChip>
+            <header className="mb-6 sm:mb-8">
+              <MonoChip color="editorial" className="mb-3 sm:mb-4">{article.category}</MonoChip>
 
               <h1
                 id="article-title"
-                className="text-3xl md:text-4xl font-bold text-[#000000] mb-4 leading-tight"
+                className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#000000] mb-3 sm:mb-4 leading-tight break-words"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
                 {article.title}
               </h1>
 
               <p
-                className="text-[18px] leading-[160%] text-[#4c4546] mb-6 max-w-3xl"
+                className="text-[15px] sm:text-[17px] md:text-[18px] leading-[160%] text-[#4c4546] mb-5 sm:mb-6 max-w-3xl"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {article.excerpt}
               </p>
 
               {/* Meta row */}
-              <div className="flex flex-wrap items-center gap-4 pb-6 border-b border-[#E5E5E5]">
-                <span className="flex items-center gap-1.5 text-sm text-[#666666]" aria-label={`Author: ${article.author}`}>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 pb-4 sm:pb-6 border-b border-[#E5E5E5]">
+                <span className="flex items-center gap-1.5 text-xs sm:text-sm text-[#666666]" aria-label={`Author: ${article.author}`}>
                   <User size={14} aria-hidden="true" />
                   <span style={{ fontFamily: "'Inter', sans-serif" }}>
                     {article.author} {editorName && <span className="italic ml-1">| Edited by: {editorName}</span>}
                   </span>
                 </span>
-                <span className="flex items-center gap-1.5 text-sm text-[#666666]" aria-label={`Last updated ${formatDate(article.updated_at)}`}>
+                <span className="flex items-center gap-1.5 text-xs sm:text-sm text-[#666666]" aria-label={`Last updated ${formatDate(article.updated_at)}`}>
                   <Calendar size={14} aria-hidden="true" />
                   <time dateTime={article.updated_at} style={{ fontFamily: "'Inter', sans-serif" }}>
                     {formatDate(article.updated_at)}
                   </time>
                 </span>
-                <span className="flex items-center gap-1.5 text-sm text-[#666666]" aria-label={`${mins} minute read`}>
+                <span className="flex items-center gap-1.5 text-xs sm:text-sm text-[#666666]" aria-label={`${mins} minute read`}>
                   <Clock size={14} aria-hidden="true" />
                   <span style={{ fontFamily: "'Inter', sans-serif" }}>{mins} min read</span>
                 </span>
@@ -241,7 +241,7 @@ export default async function WikiArticlePage({ params }: Props) {
               </div>
 
               {/* Tags and Actions */}
-              <div className="flex flex-wrap items-center justify-between gap-4 mt-4" aria-label="Article actions and tags">
+              <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 mt-4" aria-label="Article actions and tags">
                 {article.tags?.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {article.tags.map((tag) => (
@@ -252,7 +252,7 @@ export default async function WikiArticlePage({ params }: Props) {
                 
                 <Link
                   href="/labs"
-                  className="bg-transparent border border-[#cfc4c5] text-[#5e5e5e] px-6 py-2 text-[12px] leading-[100%] tracking-[0.02em] font-medium uppercase hover:border-black hover:text-black hover:bg-[#f9f9f9] transition-colors"
+                  className="bg-transparent border border-[#cfc4c5] text-[#5e5e5e] px-4 sm:px-6 py-2 text-[11px] sm:text-[12px] leading-[100%] tracking-[0.02em] font-medium uppercase hover:border-black hover:text-black hover:bg-[#f9f9f9] transition-colors"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Explore Labs
@@ -262,7 +262,7 @@ export default async function WikiArticlePage({ params }: Props) {
 
             {/* Markdown content */}
             <article
-              className="prose prose-slate max-w-none"
+              className="prose prose-slate max-w-none break-words"
               style={{
                 "--tw-prose-body": "#333333",
                 "--tw-prose-headings": "#000000",
@@ -280,7 +280,7 @@ export default async function WikiArticlePage({ params }: Props) {
                     <h2
                       {...props}
                       id={String(children).toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")}
-                      className="text-2xl font-bold text-[#000000] mt-10 mb-4 scroll-mt-24"
+                      className="text-xl sm:text-2xl font-bold text-[#000000] mt-8 sm:mt-10 mb-3 sm:mb-4 scroll-mt-24"
                       style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
                       {children}
@@ -290,7 +290,7 @@ export default async function WikiArticlePage({ params }: Props) {
                     <h3
                       {...props}
                       id={String(children).toLowerCase().replace(/[^\w\s-]/g, "").replace(/\s+/g, "-")}
-                      className="text-xl font-semibold text-[#000000] mt-8 mb-3 scroll-mt-24"
+                      className="text-lg sm:text-xl font-semibold text-[#000000] mt-6 sm:mt-8 mb-2 sm:mb-3 scroll-mt-24"
                       style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
                       {children}
@@ -298,7 +298,7 @@ export default async function WikiArticlePage({ params }: Props) {
                   ),
                   p: ({ children }) => (
                     <p
-                      className="text-[16px] leading-[160%] text-[#333333] mb-4"
+                      className="text-[15px] sm:text-[16px] leading-[165%] text-[#333333] mb-4"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       {children}
@@ -310,7 +310,7 @@ export default async function WikiArticlePage({ params }: Props) {
                       <code className={className}>{children}</code>
                     ) : (
                       <code
-                        className="px-1.5 py-0.5 text-[#000000] text-sm"
+                        className="px-1.5 py-0.5 text-[#000000] text-xs sm:text-sm"
                         style={{
                           fontFamily: "'JetBrains Mono', monospace",
                           backgroundColor: "#F9F9F9",
@@ -323,7 +323,7 @@ export default async function WikiArticlePage({ params }: Props) {
                   },
                   pre: ({ children }) => (
                     <pre
-                      className="bg-white border border-[#E5E5E5] p-5 overflow-x-auto text-sm my-6"
+                      className="bg-white border border-[#E5E5E5] p-3 sm:p-5 overflow-x-auto text-xs sm:text-sm my-4 sm:my-6 max-w-full"
                       style={{ borderRadius: "0px" }}
                     >
                       {children}
@@ -338,13 +338,13 @@ export default async function WikiArticlePage({ params }: Props) {
                     </a>
                   ),
                   ul: ({ children }) => (
-                    <ul className="list-disc list-inside space-y-1.5 mb-4 text-[#333333]">{children}</ul>
+                    <ul className="list-disc list-inside space-y-1.5 mb-4 text-[#333333] text-[15px] sm:text-[16px]">{children}</ul>
                   ),
                   ol: ({ children }) => (
-                    <ol className="list-decimal list-inside space-y-1.5 mb-4 text-[#333333]">{children}</ol>
+                    <ol className="list-decimal list-inside space-y-1.5 mb-4 text-[#333333] text-[15px] sm:text-[16px]">{children}</ol>
                   ),
                   blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-[#000000] pl-4 italic text-[#4c4546] my-6">
+                    <blockquote className="border-l-4 border-[#000000] pl-3 sm:pl-4 italic text-[#4c4546] my-4 sm:my-6 text-[15px] sm:text-[16px]">
                       {children}
                     </blockquote>
                   ),

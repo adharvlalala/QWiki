@@ -278,7 +278,7 @@ export default async function CategoryPage({ params }: Props) {
       <Navbar />
 
       <main 
-        className="min-h-screen pt-28 px-8 pb-20 relative overflow-hidden" 
+        className="min-h-screen pt-24 sm:pt-28 px-4 sm:px-6 md:px-8 pb-20 relative overflow-hidden" 
         style={{ backgroundColor: "#ffffff" }}
       >
         {/* Glowing visual effect matching category */}
@@ -294,7 +294,7 @@ export default async function CategoryPage({ params }: Props) {
           {/* Breadcrumb Navigation */}
           <nav 
             aria-label="Breadcrumb" 
-            className="flex items-center gap-2 text-[12px] text-[#999999] mb-8" 
+            className="flex items-center gap-2 text-[12px] text-[#999999] mb-6 sm:mb-8 overflow-x-auto whitespace-nowrap py-0.5" 
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             <Link href="/" className="hover:text-[#000000] transition-colors focus-visible:outline-none focus-visible:underline">Home</Link>
@@ -305,7 +305,7 @@ export default async function CategoryPage({ params }: Props) {
           </nav>
 
           {/* Category Header */}
-          <header className="mb-14 max-w-2xl">
+          <header className="mb-10 sm:mb-14 max-w-2xl">
             <Link 
               href="/wiki" 
               className="inline-flex items-center gap-1 text-xs text-[#666666] hover:text-[#000000] transition-colors mb-4 uppercase tracking-[0.05em]"
@@ -314,13 +314,13 @@ export default async function CategoryPage({ params }: Props) {
               Back to wiki
             </Link>
             <h1 
-              className="text-[48px] leading-[110%] font-semibold text-black tracking-[-0.03em] mb-4"
+              className="text-3xl sm:text-4xl md:text-[48px] leading-[110%] font-semibold text-black tracking-[-0.03em] mb-4"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
             >
               {dbCategoryName}
             </h1>
             <p 
-              className="text-[16px] leading-[160%] text-[#5e5e5e]"
+              className="text-[15px] sm:text-[16px] leading-[160%] text-[#5e5e5e]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {description}

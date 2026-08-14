@@ -66,7 +66,7 @@ export default function Navbar() {
         role="banner"
       >
         <nav
-          className="relative grid grid-cols-3 items-center px-8 py-4 max-w-[1280px] mx-auto"
+          className="relative grid grid-cols-3 items-center px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 max-w-[1280px] mx-auto"
           aria-label="Main navigation"
         >
           <div className="flex items-center gap-1">

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 const INTERVAL_MS = 5000;
 
@@ -109,27 +109,133 @@ const STACK_ROTATIONS = [-5, -2, 0.5, 3, 6];
 
 export default function HomeEventSpotlight() {
   const [current, setCurrent] = useState(0);
-  const [tickKey, setTickKey] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const modalSliderRef = useRef<HTMLDivElement>(null);
   const [hoveredGuest, setHoveredGuest] = useState<number | null>(null);
   const [fanned, setFanned] = useState(false);
   const [selectedClip, setSelectedClip] = useState<number | null>(null);
   const [hoveredClip, setHoveredClip] = useState<number | null>(null);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((c) => (c + 1) % EVENT_SLIDES.length);
-      setTickKey((k) => k + 1);
-    }, INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, [tickKey]);
-
-  const goTo = (idx: number) => {
+  const scrollToSlide = useCallback((idx: number, smooth = true) => {
+    if (!sliderRef.current) return;
+    const container = sliderRef.current;
+    const width = container.clientWidth;
+    container.scrollTo({
+      left: idx * width,
+      behavior: smooth ? "smooth" : "auto",
+    });
     setCurrent(idx);
-    setTickKey((k) => k + 1);
+  }, []);
+
+  const handleScroll = () => {
+    if (!sliderRef.current) return;
+    const container = sliderRef.current;
+    const width = container.clientWidth;
+    if (width === 0) return;
+    const newIndex = Math.round(container.scrollLeft / width);
+    if (newIndex >= 0 && newIndex < EVENT_SLIDES.length && newIndex !== current) {
+      setCurrent(newIndex);
+    }
   };
 
-  const slide = EVENT_SLIDES[current];
-  const imgSrc = slide.isFallback ? slide.fallback : slide.src;
+  const prevSlide = () => {
+    const prevIdx = (current - 1 + EVENT_SLIDES.length) % EVENT_SLIDES.length;
+    scrollToSlide(prevIdx);
+  };
+
+  const nextSlide = () => {
+    const nextIdx = (current + 1) % EVENT_SLIDES.length;
+    scrollToSlide(nextIdx);
+  };
+
+  const scrollToModalClip = useCallback((idx: number, smooth = true) => {
+    if (!modalSliderRef.current) return;
+    const container = modalSliderRef.current;
+    const width = container.clientWidth;
+    container.scrollTo({
+      left: idx * width,
+      behavior: smooth ? "smooth" : "auto",
+    });
+    setSelectedClip(idx);
+  }, []);
+
+  const handleModalScroll = () => {
+    if (!modalSliderRef.current) return;
+    const container = modalSliderRef.current;
+    const width = container.clientWidth;
+    if (width === 0) return;
+    const newIndex = Math.round(container.scrollLeft / width);
+    if (newIndex >= 0 && newIndex < PRESS_CLIPS.length && newIndex !== selectedClip) {
+      setSelectedClip(newIndex);
+    }
+  };
+
+  // Sync scroll position when modal opens
+  useEffect(() => {
+    if (selectedClip !== null) {
+      const timer = setTimeout(() => {
+        if (modalSliderRef.current) {
+          const width = modalSliderRef.current.clientWidth;
+          modalSliderRef.current.scrollTo({
+            left: selectedClip * width,
+            behavior: "auto",
+          });
+        }
+      }, 30);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedClip === null]);
+
+  // Keyboard navigation for clipping modal
+  useEffect(() => {
+    if (selectedClip === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedClip(null);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        const prev = (selectedClip - 1 + PRESS_CLIPS.length) % PRESS_CLIPS.length;
+        scrollToModalClip(prev);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        const next = (selectedClip + 1) % PRESS_CLIPS.length;
+        scrollToModalClip(next);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedClip, scrollToModalClip]);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      const nextIdx = (current + 1) % EVENT_SLIDES.length;
+      scrollToSlide(nextIdx);
+    }, INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, [current, isPaused, scrollToSlide]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (sliderRef.current) {
+        const width = sliderRef.current.clientWidth;
+        sliderRef.current.scrollTo({
+          left: current * width,
+          behavior: "auto",
+        });
+      }
+      if (modalSliderRef.current && selectedClip !== null) {
+        const modalWidth = modalSliderRef.current.clientWidth;
+        modalSliderRef.current.scrollTo({
+          left: selectedClip * modalWidth,
+          behavior: "auto",
+        });
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [current, selectedClip]);
 
   return (
     <section
@@ -202,124 +308,183 @@ export default function HomeEventSpotlight() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-7"
           >
-            <div className="relative" style={{ aspectRatio: "4/3" }}>
-              
+            <div
+              className="relative group/slider"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onTouchStart={() => setIsPaused(true)}
+              onTouchEnd={() => setIsPaused(false)}
+            >
+              {/* Corner futuristic tech brackets */}
               <div
                 aria-hidden="true"
                 className="absolute top-0 left-0 w-5 h-5 z-20 pointer-events-none"
                 style={{ borderTop: "1.5px solid #7e22ce", borderLeft: "1.5px solid #7e22ce" }}
               />
-              
               <div
                 aria-hidden="true"
                 className="absolute top-0 right-0 w-5 h-5 z-20 pointer-events-none"
                 style={{ borderTop: "1.5px solid #7e22ce", borderRight: "1.5px solid #7e22ce" }}
               />
-              
               <div
                 aria-hidden="true"
                 className="absolute bottom-0 left-0 w-5 h-5 z-20 pointer-events-none"
                 style={{ borderBottom: "1.5px solid #7e22ce", borderLeft: "1.5px solid #7e22ce" }}
               />
-              
               <div
                 aria-hidden="true"
                 className="absolute bottom-0 right-0 w-5 h-5 z-20 pointer-events-none"
                 style={{ borderBottom: "1.5px solid #7e22ce", borderRight: "1.5px solid #7e22ce" }}
               />
 
-              <AnimatePresence>
-                <motion.div
-                  key={current}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.18, ease: "linear" }}
-                  className="absolute inset-0"
-                  style={{ background: "#080614" }}
-                >
-                  <img
-                    src={imgSrc}
-                    alt={slide.caption}
-                    className="w-full h-full object-contain p-6"
-                  />
-
-                  <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(12,10,24,0.95) 0%, rgba(12,10,24,0.4) 28%, transparent 55%)",
-                    }}
-                  />
-
-                  <motion.div
-                    key={`caption-${current}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.35 }}
-                    className="absolute bottom-0 left-0 right-0 p-5 z-10"
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span
-                        className="text-[10px] tracking-[0.2em] uppercase text-[#a855f7]"
-                        style={{ fontFamily: "var(--font-display)" }}
-                      >
-                        {String(current + 1).padStart(2, "0")}&nbsp;/&nbsp;
-                        {String(EVENT_SLIDES.length).padStart(2, "0")}
-                      </span>
-                      <div
-                        className="h-px flex-1 bg-[#a855f7]/20"
-                      />
-                      <span
-                        className="text-[10px] tracking-[0.15em] uppercase text-white/40"
-                        style={{ fontFamily: "var(--font-display)" }}
-                      >
-                        {slide.caption}
-                      </span>
-                    </div>
-                    <p
-                      className="text-[12px] text-white/45"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
+              {/* Scrollable / Swipeable Track */}
+              <div
+                ref={sliderRef}
+                onScroll={handleScroll}
+                tabIndex={0}
+                role="region"
+                aria-label="Event Photo Slideshow"
+                aria-roledescription="carousel"
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    prevSlide();
+                  } else if (e.key === "ArrowRight") {
+                    e.preventDefault();
+                    nextSlide();
+                  }
+                }}
+                className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth focus:outline-none focus:ring-1 focus:ring-[#a855f7]/40 relative touch-pan-x"
+                style={{
+                  aspectRatio: "4/3",
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                }}
+              >
+                {EVENT_SLIDES.map((s, idx) => {
+                  const sImgSrc = s.isFallback ? s.fallback : s.src;
+                  return (
+                    <div
+                      key={idx}
+                      role="group"
+                      aria-roledescription="slide"
+                      aria-label={`${s.caption} (${idx + 1} of ${EVENT_SLIDES.length})`}
+                      className="min-w-full w-full h-full flex-shrink-0 snap-center relative bg-[#080614] overflow-hidden select-none"
                     >
-                      {slide.sub}
-                    </p>
-                  </motion.div>
-                </motion.div>
-              </AnimatePresence>
+                      <img
+                        src={sImgSrc}
+                        alt={s.caption}
+                        draggable={false}
+                        className="w-full h-full object-contain p-4 sm:p-6"
+                      />
+
+                      {/* Ambient gradient */}
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background:
+                            "linear-gradient(to top, rgba(12,10,24,0.96) 0%, rgba(12,10,24,0.45) 30%, transparent 60%)",
+                        }}
+                      />
+
+                      {/* Discrete Slide Caption */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 z-10 pointer-events-none">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span
+                            className="text-[10px] tracking-[0.2em] uppercase text-[#a855f7]"
+                            style={{ fontFamily: "var(--font-display)" }}
+                          >
+                            {String(idx + 1).padStart(2, "0")}&nbsp;/&nbsp;
+                            {String(EVENT_SLIDES.length).padStart(2, "0")}
+                          </span>
+                          <div className="h-px flex-1 bg-[#a855f7]/20" />
+                          <span
+                            className="text-[10px] tracking-[0.15em] uppercase text-white/50"
+                            style={{ fontFamily: "var(--font-display)" }}
+                          >
+                            {s.caption}
+                          </span>
+                        </div>
+                        <p
+                          className="text-[11px] sm:text-[12px] text-white/55"
+                          style={{ fontFamily: "'Inter', sans-serif" }}
+                        >
+                          {s.sub}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Discrete Left/Right Arrow Navigation Controls */}
+              <button
+                type="button"
+                onClick={prevSlide}
+                aria-label="Previous slide"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-[#080614]/80 border border-white/10 text-white/70 hover:text-white hover:border-[#a855f7]/60 hover:bg-[#120e28] transition-all opacity-80 md:opacity-0 group-hover/slider:opacity-100 backdrop-blur-xs shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <ChevronLeft size={16} />
+              </button>
+
+              <button
+                type="button"
+                onClick={nextSlide}
+                aria-label="Next slide"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full flex items-center justify-center bg-[#080614]/80 border border-white/10 text-white/70 hover:text-white hover:border-[#a855f7]/60 hover:bg-[#120e28] transition-all opacity-80 md:opacity-0 group-hover/slider:opacity-100 backdrop-blur-xs shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+              >
+                <ChevronRight size={16} />
+              </button>
             </div>
 
+            {/* Discrete Progress Bar */}
             <div
-              className="h-px overflow-hidden mt-0"
+              className="h-[2px] overflow-hidden mt-0 relative"
               style={{ background: "rgba(255,255,255,0.06)" }}
             >
-              <motion.div
-                key={`bar-${tickKey}`}
-                className="h-full"
-                style={{ background: "#7e22ce" }}
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: INTERVAL_MS / 1000, ease: "linear" }}
+              <div
+                className="h-full transition-all duration-300 ease-out"
+                style={{
+                  background: "linear-gradient(90deg, #7e22ce, #c084fc)",
+                  width: `${((current + 1) / EVENT_SLIDES.length) * 100}%`,
+                }}
               />
             </div>
 
-            <div className="flex items-center gap-3 mt-4">
-              {EVENT_SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  aria-label={`Slide ${i + 1}`}
-                  style={{
-                    width: i === current ? "28px" : "6px",
-                    height: "2px",
-                    borderRadius: "1px",
-                    background:
-                      i === current
-                        ? "#a855f7"
-                        : "rgba(255,255,255,0.12)",
-                    transition: "all 0.35s",
-                  }}
-                />
-              ))}
+            {/* Discrete Indicators with Accessible Touch Targets */}
+            <div className="flex items-center justify-between mt-3.5">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                {EVENT_SLIDES.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => scrollToSlide(i)}
+                    aria-label={`Go to slide ${i + 1}: ${s.caption}`}
+                    className="p-1.5 group flex items-center justify-center cursor-pointer focus:outline-none"
+                  >
+                    <span
+                      style={{
+                        width: i === current ? "26px" : "6px",
+                        height: "3px",
+                        borderRadius: "2px",
+                        background:
+                          i === current
+                            ? "#a855f7"
+                            : "rgba(255,255,255,0.18)",
+                        transition: "all 0.3s ease",
+                      }}
+                      className="block group-hover:bg-[#c084fc]"
+                    />
+                  </button>
+                ))}
+              </div>
+
+              <div
+                className="flex items-center gap-2 text-[9px] uppercase tracking-[0.15em] text-white/30 select-none"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                <span className="hidden sm:inline">Scroll or swipe to browse</span>
+                <span className="sm:hidden">Swipe to browse</span>
+              </div>
             </div>
           </motion.div>
 
@@ -857,7 +1022,7 @@ export default function HomeEventSpotlight() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#080614]/90 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#080614]/92 backdrop-blur-md"
             onClick={() => setSelectedClip(null)}
           >
             <motion.div
@@ -865,40 +1030,137 @@ export default function HomeEventSpotlight() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative max-w-full md:max-w-[720px] bg-[#0c0a18] border border-white/10 p-2 md:p-3"
-              style={{ boxShadow: "0 25px 50px -12px rgba(0,0,0,0.8)" }}
+              className="relative w-full max-w-[840px] bg-[#0c0a18] border border-white/10 p-2.5 sm:p-4 group/modal"
+              style={{ boxShadow: "0 25px 50px -12px rgba(0,0,0,0.85)" }}
               onClick={(e) => e.stopPropagation()}
             >
-              
-              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#7e22ce] pointer-events-none" />
-              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#7e22ce] pointer-events-none" />
-              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#7e22ce] pointer-events-none" />
-              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#7e22ce] pointer-events-none" />
+              {/* Corner brackets */}
+              <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-[#7e22ce] pointer-events-none z-20" />
+              <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#7e22ce] pointer-events-none z-20" />
+              <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#7e22ce] pointer-events-none z-20" />
+              <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-[#7e22ce] pointer-events-none z-20" />
 
-              <div className="overflow-auto max-h-[70vh]">
-                <img
-                  src={PRESS_CLIPS[selectedClip].src}
-                  alt={PRESS_CLIPS[selectedClip].pub}
-                  className="w-full h-auto object-contain"
+              {/* Scrollable / Swipeable Newspaper Clippings Track */}
+              <div className="relative overflow-hidden">
+                <div
+                  ref={modalSliderRef}
+                  onScroll={handleModalScroll}
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Newspaper Clippings Viewer"
+                  aria-roledescription="carousel"
+                  className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth focus:outline-none touch-pan-x max-h-[66vh] sm:max-h-[70vh]"
+                  style={{
+                    scrollbarWidth: "none",
+                    msOverflowStyle: "none",
+                  }}
+                >
+                  {PRESS_CLIPS.map((clip, idx) => (
+                    <div
+                      key={idx}
+                      role="group"
+                      aria-roledescription="slide"
+                      aria-label={`${clip.pub} (${idx + 1} of ${PRESS_CLIPS.length})`}
+                      className="min-w-full w-full flex-shrink-0 snap-center flex items-center justify-center p-1 sm:p-2 select-none"
+                    >
+                      <img
+                        src={clip.src}
+                        alt={clip.pub}
+                        draggable={false}
+                        className="max-w-full max-h-[62vh] sm:max-h-[66vh] w-auto h-auto object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Discrete Navigation Arrows */}
+                <button
+                  type="button"
+                  onClick={() => scrollToModalClip((selectedClip - 1 + PRESS_CLIPS.length) % PRESS_CLIPS.length)}
+                  aria-label="Previous clipping"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-[#080614]/85 border border-white/10 text-white/70 hover:text-white hover:border-[#a855f7]/60 hover:bg-[#120e28] transition-all backdrop-blur-xs shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => scrollToModalClip((selectedClip + 1) % PRESS_CLIPS.length)}
+                  aria-label="Next clipping"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center bg-[#080614]/85 border border-white/10 text-white/70 hover:text-white hover:border-[#a855f7]/60 hover:bg-[#120e28] transition-all backdrop-blur-xs shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              {/* Discrete Progress Bar */}
+              <div
+                className="h-[2px] overflow-hidden mt-3 relative"
+                style={{ background: "rgba(255,255,255,0.06)" }}
+              >
+                <div
+                  className="h-full transition-all duration-300 ease-out"
+                  style={{
+                    background: "linear-gradient(90deg, #7e22ce, #c084fc)",
+                    width: `${((selectedClip + 1) / PRESS_CLIPS.length) * 100}%`,
+                  }}
                 />
               </div>
 
-              <div className="mt-4 px-3 pb-1 flex items-center justify-between">
+              {/* Modal Footer */}
+              <div className="mt-3 px-2 sm:px-3 pb-1 flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  <h4 className="text-white font-serif italic text-base md:text-lg">
-                    {PRESS_CLIPS[selectedClip].pub}
-                  </h4>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-white font-serif italic text-base sm:text-lg leading-tight">
+                      {PRESS_CLIPS[selectedClip].pub}
+                    </h4>
+                    <span className="text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded-xs bg-[#a855f7]/15 text-[#c084fc] border border-[#a855f7]/30 font-medium">
+                      {PRESS_CLIPS[selectedClip].lang === "ml" ? "Malayalam" : "English"}
+                    </span>
+                  </div>
                   <p className="text-[10px] uppercase tracking-wider text-[#a855f7] mt-0.5" style={{ fontFamily: "var(--font-display)" }}>
-                    Press Clipping
+                    Press Clipping {String(selectedClip + 1).padStart(2, "0")} / {String(PRESS_CLIPS.length).padStart(2, "0")}
                   </p>
                 </div>
-                <button
-                  onClick={() => setSelectedClip(null)}
-                  className="px-4 py-2 border border-white/10 hover:border-white/30 text-white/70 hover:text-white text-xs uppercase tracking-widest transition-colors font-medium"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  Close
-                </button>
+
+                {/* Discrete Pagination Dots */}
+                <div className="flex items-center gap-1">
+                  {PRESS_CLIPS.map((clip, i) => (
+                    <button
+                      key={i}
+                      onClick={() => scrollToModalClip(i)}
+                      aria-label={`View ${clip.pub}`}
+                      className="p-1.5 group flex items-center justify-center cursor-pointer focus:outline-none"
+                    >
+                      <span
+                        style={{
+                          width: i === selectedClip ? "20px" : "5px",
+                          height: "3px",
+                          borderRadius: "2px",
+                          background:
+                            i === selectedClip
+                              ? "#a855f7"
+                              : "rgba(255,255,255,0.2)",
+                          transition: "all 0.3s ease",
+                        }}
+                        className="block group-hover:bg-[#c084fc]"
+                      />
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="hidden sm:inline text-[9px] uppercase tracking-widest text-white/30" style={{ fontFamily: "var(--font-display)" }}>
+                    Swipe / Arrows to browse
+                  </span>
+                  <button
+                    onClick={() => setSelectedClip(null)}
+                    className="px-4 py-1.5 border border-white/10 hover:border-white/30 text-white/70 hover:text-white text-xs uppercase tracking-widest transition-colors font-medium cursor-pointer"
+                    style={{ fontFamily: "var(--font-display)" }}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>

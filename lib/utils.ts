@@ -51,3 +51,21 @@ export function readingTime(content: string): number {
   const words = content.trim().split(/\s+/).length;
   return Math.max(1, Math.ceil(words / 200));
 }
+
+/**
+ * getURL — retrieves the correct site URL for Supabase redirects
+ */
+export function getURL(): string {
+  let url =
+    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
+    process?.env?.VERCEL_URL ?? // Automatically set by Vercel.
+    'http://localhost:3000/';
+  
+  // Make sure to include `https://` when not localhost.
+  url = url.startsWith('http') ? url : `https://${url}`;
+  // Make sure to not have a trailing `/`.
+  url = url.endsWith('/') ? url.slice(0, -1) : url;
+  
+  return url;
+}

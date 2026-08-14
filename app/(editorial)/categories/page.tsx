@@ -35,7 +35,7 @@ export default function CategoriesPage() {
       <main id="main-content" className="relative z-10 pt-24">
         <section
           aria-labelledby="categories-heading"
-          className="px-8 pt-8 pb-[80px] md:pb-[120px]"
+          className="px-4 sm:px-6 md:px-8 pt-6 sm:pt-8 pb-[80px] md:pb-[120px]"
           style={{ backgroundColor: "#ffffff" }}
         >
           <div className="max-w-[1280px] mx-auto">
@@ -43,7 +43,7 @@ export default function CategoriesPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 mb-8"
+              className="inline-flex items-center gap-2 mb-6 sm:mb-8"
             >
               <span
                 className="inline-flex items-center text-xs font-medium px-2 py-0.5 border border-[#E5E5E5] text-[#000000] uppercase tracking-[0.05em]"
@@ -57,18 +57,18 @@ export default function CategoriesPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8"
+              className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 sm:mb-16 gap-6 sm:gap-8"
             >
               <div>
                 <h1
                   id="categories-heading"
-                  className="text-[48px] md:text-[64px] leading-[110%] tracking-[-0.02em] font-semibold text-black mb-4"
+                  className="text-3xl sm:text-4xl md:text-[56px] leading-[110%] tracking-[-0.02em] font-semibold text-black mb-3 sm:mb-4"
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                 >
                   All Categories
                 </h1>
                 <p
-                  className="text-[18px] leading-[160%] text-[#4c4546] max-w-lg"
+                  className="text-[16px] sm:text-[18px] leading-[160%] text-[#4c4546] max-w-lg"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   Explore the breadth of quantum knowledge. From fundamental principles to cutting-edge research.

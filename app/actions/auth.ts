@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
+import { getURL } from "@/lib/utils";
 
 /**
  * Send a Magic Link to the given email.
@@ -19,8 +20,7 @@ export async function signInWithMagicLink(
   }
 
   const supabase = await createClient();
-  const headersList = await headers();
-  const origin = headersList.get("origin") ?? "http://localhost:3000";
+  const origin = getURL();
 
   const { error } = await supabase.auth.signInWithOtp({
     email,

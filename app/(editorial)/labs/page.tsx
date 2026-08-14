@@ -14,7 +14,7 @@ export default function LabsPage() {
       <Navbar />
 
       <main
-        className="min-h-screen flex flex-col items-center justify-between pt-28 pb-8 px-8 relative overflow-hidden bg-white"
+        className="min-h-screen flex flex-col items-center justify-between pt-24 sm:pt-28 pb-8 px-4 sm:px-6 md:px-8 relative overflow-hidden bg-white"
         style={{ backgroundColor: "#ffffff" }}
       >
         {/* Glowing background accent for futuristic feel */}
