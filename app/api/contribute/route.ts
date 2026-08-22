@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 
 export const runtime = "edge";
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window
-const MAX_REQUESTS_PER_WINDOW = 5;
+const MAX_REQUESTS_PER_WINDOW = 10;
 const ipRequestCache = new Map<string, number[]>();
 
 function checkRateLimit(ip: string): { limitReached: boolean } {

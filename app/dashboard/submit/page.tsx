@@ -307,7 +307,8 @@ export default function SubmitPage() {
   }
 
   return (
-    <div
+    <form
+      action={action}
       className="flex flex-col min-h-screen"
       style={{ backgroundColor: "#ffffff" }}
     >
@@ -332,6 +333,7 @@ export default function SubmitPage() {
           {/* Mobile tab toggle */}
           <div className="flex md:hidden border border-[#E5E5E5]">
             <button
+              type="button"
               onClick={() => setActiveTab("write")}
               className="px-4 py-2 text-[12px] uppercase tracking-[0.06em] transition-colors"
               style={{
@@ -344,6 +346,7 @@ export default function SubmitPage() {
               Write
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab("preview")}
               className="px-4 py-2 text-[12px] uppercase tracking-[0.06em] transition-colors"
               style={{
@@ -364,7 +367,6 @@ export default function SubmitPage() {
           <div className="md:col-span-1">
             <input
               name="title"
-              form="submit-form"
               required
               value={title}
               onChange={handleTitleChange}
@@ -389,7 +391,6 @@ export default function SubmitPage() {
           <div>
             <select
               name="category"
-              form="submit-form"
               required
               className="w-full bg-transparent text-[13px] text-black outline-none py-1 cursor-pointer transition-all duration-200"
               style={{
@@ -419,7 +420,6 @@ export default function SubmitPage() {
           <div>
             <input
               name="tags"
-              form="submit-form"
               placeholder="Tags (comma-separated)"
               className="w-full bg-transparent text-[13px] text-black placeholder:text-[#CCCCCC] outline-none py-1 transition-all duration-200"
               style={{
@@ -432,13 +432,6 @@ export default function SubmitPage() {
           </div>
         </div>
       </header>
-
-      <form id="submit-form" action={action} className="hidden">
-        <input type="hidden" name="title" value={title} />
-        <input type="hidden" name="content" value={content} />
-        <input type="hidden" name="category" defaultValue="" />
-        <input type="hidden" name="tags" defaultValue="" />
-      </form>
 
       <div className="flex flex-1 overflow-hidden">
         {/* Write pane */}
@@ -454,7 +447,7 @@ export default function SubmitPage() {
             </span>
           </div>
           <textarea
-            id="markdown-editor"
+            name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your article in Markdown…"
@@ -532,29 +525,8 @@ export default function SubmitPage() {
               Discard
             </Link>
             <button
-              id="submit-article-btn"
               type="submit"
-              form="submit-form"
               disabled={pending || !title || !content}
-              onClick={(e) => {
-                e.preventDefault();
-                const form = document.getElementById("submit-form") as HTMLFormElement;
-                const titleInput = form.querySelector("[name='title']") as HTMLInputElement;
-                const contentInput = form.querySelector("[name='content']") as HTMLInputElement;
-                const categorySelect = document.querySelector("select[name='category']") as HTMLSelectElement;
-                const tagsInput = document.querySelector("input[name='tags']") as HTMLInputElement;
-                if (titleInput) titleInput.value = title;
-                if (contentInput) contentInput.value = content;
-                if (categorySelect) {
-                  const catHidden = form.querySelector("input[name='category']") as HTMLInputElement;
-                  if (catHidden) catHidden.value = categorySelect.value;
-                }
-                if (tagsInput) {
-                  const tagsHidden = form.querySelector("input[name='tags']") as HTMLInputElement;
-                  if (tagsHidden) tagsHidden.value = tagsInput.value;
-                }
-                form.requestSubmit();
-              }}
               className="px-8 py-3 text-[13px] font-medium uppercase tracking-[0.06em] text-white transition-opacity disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
               style={{
                 backgroundColor: "#000000",
@@ -567,6 +539,6 @@ export default function SubmitPage() {
           </div>
         </div>
       </footer>
-    </div>
+    </form>
   );
 }
