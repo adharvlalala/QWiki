@@ -5,36 +5,25 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { getURL } from "@/lib/utils";
 
-/**
- * Send a Magic Link to the given email.
- * On success, show the user a "check your inbox" message (handled client-side via returned state).
- */
-export async function signInWithMagicLink(
-  _prevState: { error?: string; success?: boolean } | undefined,
-  formData: FormData
-): Promise<{ error?: string; success?: boolean }> {
-  const email = formData.get("email") as string;
-
-  if (!email || !email.includes("@")) {
-    return { error: "Please enter a valid email address." };
-  }
-
+export async function signInWithGoogle() {
   const supabase = await createClient();
   const origin = getURL();
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-      shouldCreateUser: true,
+      redirectTo: `${origin}/auth/callback`,
     },
   });
 
   if (error) {
-    return { error: error.message };
+    console.error("Error signing in with Google:", error.message);
+    return;
   }
 
-  return { success: true };
+  if (data.url) {
+    redirect(data.url);
+  }
 }
 
 /**

@@ -10,11 +10,6 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const authError = searchParams.get("error");
 
-  const [state, action, pending] = useActionState(
-    signInWithMagicLink,
-    undefined
-  );
-
   return (
     <div
       className="min-h-screen w-full grid md:grid-cols-2"
@@ -56,7 +51,7 @@ function LoginForm() {
             className="text-[16px] leading-[170%] text-[#5e5e5e] max-w-sm"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Sign in with your email to access your contributor dashboard,
+            Sign in with Google to access your contributor dashboard,
             submit articles, and track your editorial pipeline.
           </p>
         </div>
@@ -66,7 +61,7 @@ function LoginForm() {
           className="text-[12px] text-[#999999]"
           style={{ fontFamily: "'JetBrains Mono', monospace" }}
         >
-          No password required. Magic link sent to your inbox.
+          Secure authentication powered by Google and Supabase.
         </p>
       </div>
 
@@ -82,119 +77,49 @@ function LoginForm() {
                 fontFamily: "'Inter', sans-serif",
               }}
             >
-              Sign-in link was invalid or expired. Please try again.
+              Sign-in was invalid or expired. Please try again.
             </div>
           )}
 
-          {state?.success ? (
-            <div>
-              <p
-                className="text-[11px] uppercase tracking-[0.12em] text-[#666666] mb-4"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                Check your inbox
-              </p>
-              <h2
-                className="text-[32px] font-semibold leading-[120%] tracking-[-0.02em] text-black mb-4"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-              >
-                Link sent.
-              </h2>
-              <p
-                className="text-[15px] leading-[165%] text-[#5e5e5e] mb-8"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                We&apos;ve sent a magic link to your email. Click the link to
-                sign in instantly — no password needed. It expires in 60
-                minutes.
-              </p>
-              <button
-                onClick={() => window.location.reload()}
-                className="text-[13px] font-medium underline underline-offset-4 text-[#000000] hover:text-[#333333] transition-colors focus-visible:outline-none"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                Send another link
-              </button>
-            </div>
-          ) : (
-            <>
-              <p
-                className="text-[11px] uppercase tracking-[0.12em] text-[#666666] mb-8"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                Sign in
-              </p>
+          <p
+            className="text-[11px] uppercase tracking-[0.12em] text-[#666666] mb-8"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Sign in
+          </p>
 
-              <form action={action} className="space-y-8" noValidate>
-                {/* Email Field */}
-                <div>
-                  <label
-                    htmlFor="login-email"
-                    className="block text-[11px] uppercase tracking-[0.08em] text-[#666666] mb-3"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  >
-                    Email Address
-                  </label>
-                  <input
-                    id="login-email"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    placeholder="your@email.com"
-                    className="w-full bg-transparent text-[16px] text-black placeholder:text-[#CCCCCC] outline-none py-2 transition-all duration-200"
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      borderBottom: "1px solid #E5E5E5",
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.borderBottom = "1px solid #000000";
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.borderBottom = "1px solid #E5E5E5";
-                    }}
-                  />
-                  {state?.error && (
-                    <p
-                      className="mt-2 text-[12px] text-black"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      {state.error}
-                    </p>
-                  )}
-                </div>
+          <form action={signInWithGoogle} className="space-y-8" noValidate>
+            {/* Submit */}
+            <button
+              id="login-submit"
+              type="submit"
+              className="w-full py-4 text-[13px] font-medium uppercase tracking-[0.08em] text-white transition-opacity disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 flex items-center justify-center gap-3"
+              style={{
+                backgroundColor: "#000000",
+                borderRadius: 0,
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
+              </svg>
+              Continue with Google
+            </button>
+          </form>
 
-                {/* Submit */}
-                <button
-                  id="login-submit"
-                  type="submit"
-                  disabled={pending}
-                  className="w-full py-4 text-[13px] font-medium uppercase tracking-[0.08em] text-white transition-opacity disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-                  style={{
-                    backgroundColor: "#000000",
-                    borderRadius: 0,
-                    fontFamily: "'Inter', sans-serif",
-                  }}
-                >
-                  {pending ? "Sending…" : "Send Magic Link"}
-                </button>
-              </form>
-
-              {/* Register link */}
-              <p
-                className="mt-8 text-[13px] text-[#666666]"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                New to QWiki?{" "}
-                <Link
-                  href="/register"
-                  className="text-black underline underline-offset-4 hover:opacity-60 transition-opacity focus-visible:outline-none"
-                >
-                  Create an account
-                </Link>
-              </p>
-            </>
-          )}
+          {/* Register link */}
+          <p
+            className="mt-8 text-[13px] text-[#666666]"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            New to QWiki?{" "}
+            <Link
+              href="/register"
+              className="text-black underline underline-offset-4 hover:opacity-60 transition-opacity focus-visible:outline-none"
+            >
+              Create an account
+            </Link>
+          </p>
         </div>
       </div>
     </div>
