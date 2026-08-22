@@ -1,8 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
 import Link from "next/link";
-import { signInWithMagicLink } from "@/app/actions/auth";
+import { signInWithGoogle } from "@/app/actions/auth";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
