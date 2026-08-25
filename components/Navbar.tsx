@@ -66,10 +66,11 @@ export default function Navbar() {
         role="banner"
       >
         <nav
-          className="relative grid grid-cols-3 items-center px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 max-w-[1280px] mx-auto"
+          className="relative flex items-center justify-between px-4 sm:px-6 md:px-8 py-3.5 sm:py-4 max-w-[1280px] mx-auto"
           aria-label="Main navigation"
         >
-          <div className="flex items-center gap-1">
+          {/* Left links (Desktop) */}
+          <div className="flex items-center gap-1 z-10 min-w-0 md:min-w-[220px]">
             <div className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <Link
@@ -90,16 +91,17 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          {/* Center Brand: BEYOND CLASSICAL (Centered, with safe bounds so it never covers buttons) */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center z-10 max-w-[calc(100%-80px)] pointer-events-auto">
             <Link
               href="/"
-              className="focus-visible:outline-none focus-visible:underline"
+              className="focus-visible:outline-none focus-visible:underline text-center truncate block"
               aria-label="QWiki — Home"
             >
               <span
                 className={cn(
-                  "font-bold text-[15px] tracking-[-0.01em] uppercase transition-all duration-500",
-                  isDarkSection ? "text-white drop-shadow-[0_0_10px_rgba(168,85,247,0.4)]" : "text-black"
+                  "font-extrabold text-[15px] sm:text-[17px] md:text-[19px] tracking-[-0.02em] uppercase transition-all duration-500 text-center whitespace-nowrap block truncate",
+                  isDarkSection ? "text-white drop-shadow-[0_0_12px_rgba(168,85,247,0.45)]" : "text-black"
                 )}
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
               >
@@ -108,7 +110,8 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div className="flex items-center justify-end gap-1">
+          {/* Right Controls: Search, Login & Hamburger Menu */}
+          <div className="flex items-center justify-end gap-1 z-20 relative min-w-0 md:min-w-[220px]">
             <div className="hidden md:flex items-center gap-1">
               <Link
                 href="/login"
@@ -170,7 +173,7 @@ export default function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
               className={cn(
-                "md:hidden p-2 ml-2 transition-colors duration-300",
+                "md:hidden p-2 ml-1 relative z-30 transition-colors duration-300 cursor-pointer",
                 isDarkSection
                   ? "text-white hover:bg-white/10"
                   : "text-[#1b1b1b] hover:bg-[#f9f9f9]",

@@ -309,11 +309,11 @@ export default function SubmitPage() {
   return (
     <form
       action={action}
-      className="flex flex-col min-h-screen"
+      className="flex flex-col min-h-[100dvh]"
       style={{ backgroundColor: "#ffffff" }}
     >
       <header className="sticky top-0 z-20 border-b border-[#E5E5E5] bg-white">
-        <div className="px-8 py-4 flex items-center justify-between gap-6">
+        <div className="px-4 md:px-8 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <Link
               href="/dashboard/contributor"
@@ -362,7 +362,7 @@ export default function SubmitPage() {
         </div>
 
         {/* Metadata fields strip */}
-        <div className="px-8 py-3 border-t border-[#E5E5E5] grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="px-4 md:px-8 py-3 border-t border-[#E5E5E5] grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
           {/* Title */}
           <div className="md:col-span-1">
             <input
@@ -505,18 +505,21 @@ export default function SubmitPage() {
       <footer
         className="sticky bottom-0 z-20 border-t border-[#E5E5E5] bg-white"
       >
-        <div className="px-8 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            {state?.error && (
-              <p
-                className="text-[12px] text-black"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                {state.error}
-              </p>
-            )}
+        {/* Error banner — full width, above action buttons */}
+        {state?.error && (
+          <div
+            className="px-4 md:px-8 py-2 border-b border-[#E5E5E5] bg-[#FAFAFA]"
+          >
+            <p
+              className="text-[12px] text-red-700"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              {state.error}
+            </p>
           </div>
-          <div className="flex items-center gap-4">
+        )}
+        <div className="px-4 md:px-8 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
             <Link
               href="/dashboard/contributor"
               className="text-[13px] text-[#999999] hover:text-black transition-colors focus-visible:outline-none focus-visible:underline"
@@ -524,19 +527,19 @@ export default function SubmitPage() {
             >
               Discard
             </Link>
-            <button
-              type="submit"
-              disabled={pending || !title || !content}
-              className="px-8 py-3 text-[13px] font-medium uppercase tracking-[0.06em] text-white transition-opacity disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-              style={{
-                backgroundColor: "#000000",
-                borderRadius: 0,
-                fontFamily: "'Inter', sans-serif",
-              }}
-            >
-              {pending ? "Submitting…" : "Submit for Review"}
-            </button>
           </div>
+          <button
+            type="submit"
+            disabled={pending || !title || !content}
+            className="px-6 md:px-8 py-3 text-[12px] md:text-[13px] font-medium uppercase tracking-[0.06em] text-white transition-opacity disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+            style={{
+              backgroundColor: "#000000",
+              borderRadius: 0,
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
+            {pending ? "Submitting…" : "Submit for Review"}
+          </button>
         </div>
       </footer>
     </form>

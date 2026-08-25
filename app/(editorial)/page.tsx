@@ -120,7 +120,7 @@ export default function HomePage() {
                 className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-14"
               >
                 <Link
-                  href="/wiki/quantum-entanglement"
+                  href="/wiki"
                   className="bg-black text-white px-8 py-4 text-[14px] leading-[100%] tracking-[0.02em] font-medium uppercase hover:bg-[#303030] transition-colors text-center flex items-center justify-center gap-2"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                   aria-label="Start exploring the wiki"

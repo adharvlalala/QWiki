@@ -13,6 +13,10 @@ export async function signInWithGoogle() {
     provider: 'google',
     options: {
       redirectTo: `${origin}/auth/callback`,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
     },
   });
 
@@ -27,10 +31,12 @@ export async function signInWithGoogle() {
 }
 
 /**
- * Sign out the current user and redirect to home.
+ * Sign out the current user and redirect to login.
+ * Uses ?signedout=true so the proxy middleware does not auto-redirect
+ * back to the dashboard even if the session cookie hasn't cleared yet.
  */
 export async function signOut(): Promise<void> {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  redirect("/");
+  redirect("/login?signedout=true");
 }

@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export const runtime = "edge";
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour window
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 10;
 const ipRequestCache = new Map<string, number[]>();
 
@@ -11,14 +10,14 @@ function checkRateLimit(ip: string): { limitReached: boolean } {
   const now = Date.now();
   const timestamps = ipRequestCache.get(ip) || [];
   const recentTimestamps = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-  
+
   if (recentTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
     return { limitReached: true };
   }
-  
+
   recentTimestamps.push(now);
   ipRequestCache.set(ip, recentTimestamps);
-  
+
   return { limitReached: false };
 }
 
@@ -48,7 +47,7 @@ export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const { limitReached } = checkRateLimit(ip);
-    
+
     if (limitReached) {
       return NextResponse.json(
         { error: "Too many contributions submitted. Please try again in an hour." },
@@ -98,19 +97,19 @@ export async function POST(request: NextRequest) {
       .from("wiki_contributions")
       .insert([
         {
-          type:        type ?? "new",
-          title:       title.trim(),
-          slug:        slug.trim(),
-          category:    category?.trim() ?? "Uncategorized",
-          tags:        tags
+          type: type ?? "new",
+          title: title.trim(),
+          slug: slug.trim(),
+          category: category?.trim() ?? "Uncategorized",
+          tags: tags
             ? tags.split(",").map((t: string) => t.trim()).filter(Boolean)
             : [],
-          content:     content.trim(),
+          content: content.trim(),
           author_name: author_name?.trim() ?? "Anonymous",
           author_note: author_note?.trim() ?? null,
           target_slug: target_slug?.trim() ?? null,
-          status:      "pending_review",
-          created_at:  new Date().toISOString(),
+          status: "pending_review",
+          created_at: new Date().toISOString(),
         },
       ])
       .select("id")

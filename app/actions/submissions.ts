@@ -68,10 +68,12 @@ export async function createSubmission(
   });
 
   if (error) {
+    console.error("[createSubmission] Supabase error:", error);
     if (error.code === "23505") {
       return { fieldErrors: { title: "An article with this title already exists. Please choose a different title." } };
     }
-    return { error: error.message };
+    // Expose the real error so it's visible in the form footer
+    return { error: `Submission failed: ${error.message}` };
   }
 
   return { success: true };

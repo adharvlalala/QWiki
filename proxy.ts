@@ -59,7 +59,9 @@ export async function proxy(request: NextRequest) {
   }
 
   // Redirect logged-in users away from auth pages
-  if ((pathname === "/login" || pathname === "/register") && user) {
+  // But NOT if they just signed out — let them see the login page
+  const justSignedOut = request.nextUrl.searchParams.get("signedout") === "true";
+  if ((pathname === "/login" || pathname === "/register") && user && !justSignedOut) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard/contributor";
     return NextResponse.redirect(url);

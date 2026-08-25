@@ -8,7 +8,7 @@ import { getURL } from "@/lib/utils";
  * We exchange it for a session, then redirect to the dashboard.
  */
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/dashboard/contributor";
 
@@ -19,8 +19,11 @@ export async function GET(request: Request) {
     if (!error) {
       const baseUrl = getURL();
       return NextResponse.redirect(`${baseUrl}${next.startsWith('/') ? next : `/${next}`}`);
+    } else {
+      console.error("Auth callback error:", error.message, error.name);
     }
   }
+  
   return NextResponse.redirect(`${getURL()}/login?error=auth_callback_error`);
 }
 

@@ -1,7 +1,12 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import DashboardNav from "@/components/DashboardNav";
+import DashboardLayoutClient from "@/components/DashboardLayoutClient";
 
+/**
+ * Dashboard layout — server component.
+ * Fetches user session and profile server-side, then passes data
+ * to DashboardLayoutClient which manages client-side mobile drawer state.
+ */
 export default async function DashboardLayout({
   children,
 }: {
@@ -16,6 +21,7 @@ export default async function DashboardLayout({
   if (!user) {
     redirect("/login");
   }
+
   const { data: profile } = await supabase
     .from("users")
     .select("role, display_name")
@@ -25,17 +31,8 @@ export default async function DashboardLayout({
   const userRole = profile?.role ?? "contributor";
 
   return (
-    <div
-      className="flex min-h-screen"
-      style={{ backgroundColor: "#ffffff", color: "#000000" }}
-    >
-      <DashboardNav
-        userEmail={user.email ?? ""}
-        userRole={userRole}
-      />
-      <main className="flex-1 overflow-auto">
-        {children}
-      </main>
-    </div>
+    <DashboardLayoutClient userEmail={user.email ?? ""} userRole={userRole}>
+      {children}
+    </DashboardLayoutClient>
   );
 }
