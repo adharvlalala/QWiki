@@ -8,7 +8,7 @@ export const runtime = "edge";
  *
  * Full-text + semantic hybrid search over the wiki_articles table.
  * pgvector semantic search is stubbed — replace the embedding call
- * with your preferred embedding model (e.g., OpenAI, Cohere, Gemini).
+ * with your preferred embedding model.
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

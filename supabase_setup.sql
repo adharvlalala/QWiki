@@ -20,7 +20,7 @@ create table if not exists public.wiki_articles (
     tags text[] default '{}'::text[] not null,
     stars integer default 0 not null,
     reading_time integer default 0 not null,
-    embedding vector(1536), -- 1536 dimensions for OpenAI / Gemini / Cohere embeddings
+    embedding vector(1536), -- 1536 dimensions for embeddings
     
     -- Automatically updated full-text search (FTS) column indexing title, excerpt, and content
     fts tsvector generated always as (
