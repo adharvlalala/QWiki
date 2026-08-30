@@ -14,7 +14,6 @@ import SidebarNav from "@/components/SidebarNav";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import { formatDate, readingTime } from "@/lib/utils";
-import StarButton from "@/components/StarButton";
 import ScrollToHash from "@/components/ScrollToHash";
 
 interface WikiArticle {
@@ -233,11 +232,6 @@ export default async function WikiArticlePage({ params }: Props) {
                   <Clock size={14} aria-hidden="true" />
                   <span style={{ fontFamily: "'Inter', sans-serif" }}>{mins} min read</span>
                 </span>
-                <StarButton
-                  articleId={article.id}
-                  articleSlug={article.slug}
-                  initialStars={article.stars}
-                />
               </div>
 
               {/* Tags and Actions */}
