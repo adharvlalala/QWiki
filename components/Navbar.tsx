@@ -43,7 +43,7 @@ export default function Navbar() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleScroll);
-   
+
     handleScroll();
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -91,7 +91,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Center Brand: BEYOND CLASSICAL (Centered, with safe bounds so it never covers buttons) */}
+          {/* Center Brand: QTIG (Centered, with safe bounds so it never covers buttons) */}
           <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center z-10 max-w-[calc(100%-80px)] pointer-events-auto">
             <Link
               href="/"
@@ -100,12 +100,12 @@ export default function Navbar() {
             >
               <span
                 className={cn(
-                  "font-extrabold text-[15px] sm:text-[17px] md:text-[19px] tracking-[-0.02em] uppercase transition-all duration-500 text-center whitespace-nowrap block truncate",
-                  isDarkSection ? "text-white drop-shadow-[0_0_12px_rgba(168,85,247,0.45)]" : "text-black"
+                  "font-bostone text-[36px] sm:text-[42px] md:text-[48px] leading-none transition-all duration-500 text-center whitespace-nowrap block truncate",
+                  isDarkSection ? "text-white" : "text-black"
                 )}
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ fontFamily: "var(--font-bostone), 'Bostone', sans-serif", letterSpacing: "normal" }}
               >
-                BEYOND CLASSICAL
+                QTIG
               </span>
             </Link>
           </div>
@@ -213,7 +213,7 @@ export default function Navbar() {
               )}
               onClick={(e) => e.stopPropagation()}
             >
-              
+
               <div className="relative mb-6">
                 <label htmlFor="mobile-search" className="sr-only">Search wiki articles</label>
                 <Search

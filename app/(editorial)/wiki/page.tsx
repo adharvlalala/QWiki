@@ -416,10 +416,10 @@ export default function WikiHomePage() {
           <div className="max-w-[1280px] mx-auto grid grid-cols-12 gap-8">
             <div className="col-span-12 md:col-span-6">
               <div
-                className="text-[32px] leading-[130%] tracking-[-0.01em] font-semibold text-black mb-4"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                className="font-bostone text-[60px] sm:text-[72px] leading-none text-black mb-4"
+                style={{ fontFamily: "var(--font-bostone), 'Bostone', sans-serif", letterSpacing: "normal" }}
               >
-                BEYOND CLASSICAL
+                QTIG
               </div>
               <p
                 className="text-[16px] leading-[160%] text-[#5e5e5e] max-w-sm"

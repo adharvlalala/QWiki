@@ -1,6 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap");
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Bostone";
+  src: url("/fonts/Bostone.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-bostone {
+  font-family: var(--font-bostone), "Bostone", sans-serif !important;
+}
+
 @theme {
   /* Colours */
   --color-primary: #7e22ce;

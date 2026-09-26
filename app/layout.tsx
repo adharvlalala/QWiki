@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const bostone = localFont({
+  src: "../public/fonts/Bostone.ttf",
+  variable: "--font-bostone",
+  display: "swap",
+});
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -52,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${inter.variable} ${playfairDisplay.variable} h-full`}
+      className={`${plusJakarta.variable} ${inter.variable} ${playfairDisplay.variable} ${bostone.variable} h-full`}
     >
       <body className="min-h-full bg-[#f8f9fa] text-[#191c1d] antialiased">
         {children}
